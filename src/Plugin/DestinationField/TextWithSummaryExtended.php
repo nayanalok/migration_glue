@@ -32,6 +32,15 @@ class TextWithSummaryExtended extends DestinationFieldBase {
   /**
    * Gives overridden field name.
    *
+   * Example -
+   *  (a) If field name is 'field_para_body_value', then it will return
+   *   'field_para_body/value'
+   *  (b) If field name is 'field_para_body_summary', then it will return
+   *   'field_para_body/summary'
+   *  (c) If field name is 'field_para_body_format', then it will return
+   *   'field_para_body/format'
+   *  (d) For other type of field names, it simply return the field name as is.
+   *
    * @param string $field_name
    *   Field name.
    *

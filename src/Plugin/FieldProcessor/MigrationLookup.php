@@ -32,7 +32,7 @@ class MigrationLookup extends FieldProcessorBase {
 
     $form['no_stub'] = [
       '#type' => 'select',
-      '#description' => $this->t('No stub.'),
+      '#description' => $this->t('If we want to generate the stub of child/dependent migration entity.'),
       '#title' => $this->t('No stub'),
       '#options' => [
         1 => $this->t('Yes'),
@@ -43,6 +43,7 @@ class MigrationLookup extends FieldProcessorBase {
     $form['use_extract'] = [
       '#type' => 'select',
       '#title' => $this->t('Use extract'),
+      '#description' => $this->t('If we have an array result and we want to extract value from the specific index key.'),
       '#options' => [
         1 => $this->t('Yes'),
         0 => $this->t('No'),
@@ -51,7 +52,8 @@ class MigrationLookup extends FieldProcessorBase {
 
     $form['index'] = [
       '#type' => 'number',
-      '#description' => $this->t('Please provide the index position like 0,1 etc.'),
+      '#description' => $this->t('Please provide the index position like 0,1 etc. The normal use case for this is in the paragraph reference
+      migration where we get target_id and target_revision_id in index 0 and 1 respectively and thus we can define index for them.'),
       '#default_value' => 0,
       '#title' => $this->t('Index'),
       '#states' => [

@@ -6,7 +6,10 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\migration_mapper\DestinationFieldBase;
 
 /**
- * Provides an 'image' destination field type.
+ * Provides an 'entity_reference_revisions' destination field type.
+ *
+ * This is mainly used for the paragraphs as paragraphs refer in an entity by
+ * the two fields - 'target_id' and 'target_revision_id'.
  *
  * @DestinationField(
  *   id = "entity_reference_revisions",
@@ -31,6 +34,13 @@ class EntityReferenceRevision extends DestinationFieldBase {
 
   /**
    * Gives overridden field name.
+   *
+   * Example -
+   *  (a) If field name is like 'field_para_body_target_id', then this
+   *  will return the field name as field_para_body/target_id.
+   *  (b) If field name is like 'field_para_body_target_revision_id', then this
+   *  will return the field name as 'field_para_body/target_revision_id'
+   *  (c) For other type field names, it will simply return field name as is.
    *
    * @param string $field_name
    *   Field name.
