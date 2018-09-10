@@ -81,27 +81,45 @@ class MigrationLookup extends FieldProcessorBase {
         ],
       ];
     }
-    return [
-      [
+
+    if (!empty($extract)) {
+      return [
+        [
+          'plugin'      =>  'migration_lookup',
+          'migration'   =>  $config['migration'] ?: '',
+          'no_stub'     =>  $config['no_stub'],
+          'source'      =>  $field_data['map_to'],
+        ],
+        $extract,
+      ];
+    }
+    else {
+      return [
         'plugin'      =>  'migration_lookup',
         'migration'   =>  $config['migration'] ?: '',
         'no_stub'     =>  $config['no_stub'],
         'source'      =>  $field_data['map_to'],
-      ],
-      $extract,
-    ];
+      ];
+    }
   }
 
   /**
    * Get list of migration.
    *
    * @return array
+   *   Migration list array.
    */
   protected function getMigrationList() {
     // @TODO: Load migration instead of hardcoded.
-    return [
-      'example_id' => 'example_id',
-    ];
+    $manager = \Drupal::service('plugin.manager.migration');
+    $plugins = $manager->createInstances([]);
+    $migrations = [];
+    foreach ($plugins as $migration_id => $migration) {
+      $migrations[$migration_id] = $migration->label();
+    }
+
+    // @Todo: Unset if it has current migration as well.
+    return $migrations;
   }
 
 }
