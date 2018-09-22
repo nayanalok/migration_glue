@@ -13,6 +13,7 @@ use Drupal\migration_mapper\DestinationFieldBase;
  *   name = @Translation("Text With Summary Extended"),
  *   fieldTypes = {
  *     "text_with_summary",
+ *     "text_long",
  *   },
  *   combinePlugin = FALSE,
  * )
