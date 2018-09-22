@@ -93,35 +93,8 @@ function _migration_glue_validate_handler(array &$form, FormStateInterface $form
 function _migration_glue_submit_handler(array &$form, FormStateInterface $form_state) {
   // Get exported output.
   $output = $form_state->getValue('output')['export'];
-  $source = $form_state->getValue('data_source_config_wrapper')['source'];
-  $source_type = $form_state->getValue('data_source');
-  // It will be like 'json_item_selector' or 'xml_item_selector'.
-  $item_selector_key = $source_type . '_item_selector';
-  // It will be like 'json_path' or 'xml_path'.
-  $url_path = $source_type . '_path';
-
-  // If source is JSON/XML.
-  if ($source_type == 'json' || $source_type == 'xml') {
-    // Item selector must have a trailing slash as we are replacing it with empty
-    // string. If no tailing slash, then we adding it here.
-    $item_selector = substr($source[$item_selector_key], -1) == '/' ? $source[$item_selector_key] : $source[$item_selector_key] . '/';
-
-    // We are removing item selector from the source and process part of the
-    // migration output otherwise migration throws error -
-    // "Migration failed with source plugin exception: /pages/page/id is defined
-    // as a source ID but has no value".
-    $output = str_replace($item_selector, '', $output);
-
-    // Parsed yml to array.
-    $parsed_yml = Yaml::parse($output);
-
-    $parsed_yml['source']['urls'] = $source[$url_path];
-    $parsed_yml['source']['item_selector'] = $source[$item_selector_key];
-  }
-  else {
-    // Parsed yml to array.
-    $parsed_yml = Yaml::parse($output);
-  }
+  // Parsed yml to array.
+  $parsed_yml = Yaml::parse($output);
 
   // Register the migration in system.
   \Drupal::service('migration_glue.manager')->registerMigration($parsed_yml);
