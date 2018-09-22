@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the migration_glue module.
+ */
+
+use Drupal\migrate_plus\Entity\MigrationGroup;
+
+/**
+ * Implements hook_install().
+ */
+function migration_glue_install() {
+  // If 'default' migration group not exists in system, then create it.
+  if (empty($default_group = MigrationGroup::load('deafult'))) {
+    $group_configuration = [
+      'id' => 'default',
+    ];
+    $migration_group = \Drupal::getContainer()->get('entity_type.manager')
+      ->getStorage('migration_group')->create($group_configuration);
+    $migration_group->save();
+  }
+}
