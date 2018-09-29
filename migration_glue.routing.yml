@@ -13,6 +13,12 @@ migration_glue.run_migration:
     _title: 'Run Migration'
   requirements:
     _permission: 'administer migrations'
+  options:
+    parameters:
+      migration_group:
+        type: entity:migration_group
+      migration:
+        type: entity:migration
 
 migration_glue.list_migration:
   path: '/admin/config/development/{migration_group}/list-migrations'
