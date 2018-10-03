@@ -1,0 +1,9 @@
+base:
+  version: 1.x
+  css:
+    layout:
+      css/migration-mapper-layout.css: {}
+#    theme:
+#      css/cuddly-slider-theme.css: {}
+  js:
+    js/migration-mapper.js: {}
