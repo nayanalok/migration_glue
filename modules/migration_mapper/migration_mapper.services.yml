@@ -1,0 +1,13 @@
+services:
+  plugin.manager.data_source:
+    class: Drupal\migration_mapper\Plugin\DataSourceManager
+    parent: default_plugin_manager
+  plugin.manager.destination_type:
+    class: Drupal\migration_mapper\Plugin\DestinationTypeManager
+    parent: default_plugin_manager
+  plugin.manager.destination_field:
+    class: Drupal\migration_mapper\Plugin\DestinationFieldManager
+    parent: default_plugin_manager
+  plugin.manager.field_processor:
+    class: Drupal\migration_mapper\Plugin\FieldProcessorManager
+    parent: default_plugin_manager

@@ -1,0 +1,5 @@
+name: Migration Mapper
+type: module
+description: Maps data files to Migration yml.
+core: 8.x
+package: Custom
