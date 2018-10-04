@@ -36,6 +36,19 @@ class Json extends DataSourceBase {
 
     array_walk($data, [$this, 'recursiveWalk']);
 
+    if (!empty($this->sourcePaths)) {
+      foreach ($this->sourcePaths as $key => $value) {
+        if (strpos($key, $config['source']['json_item_selector']) !== FALSE) {
+          $val = str_replace($config['source']['json_item_selector'], '', $key);
+          unset($this->sourcePaths[$key]);
+          if (empty($val)) {
+            continue;
+          }
+          $this->sourcePaths[$val] = $val;
+        }
+      }
+    }
+
     return $this->sourcePaths;
   }
 
@@ -114,8 +127,8 @@ class Json extends DataSourceBase {
         'plugin' => 'url',
         'data_parser_plugin' => 'json',
         'data_fetcher_plugin' => 'file',
-        'urls' => $form_state->getValue('json_path'),
-        'item_selector' => $form_state->getValue('json_item_selector'),
+        'urls' => $form_state->getValue('data_source_config_wrapper')['source']['json_path'],
+        'item_selector' => $form_state->getValue('data_source_config_wrapper')['source']['json_item_selector'],
         'fields' => $this->sourceFieldFormatter($form_state->get('columns')),
         'ids' => [$form_state->getValue('unique_row_id') => ['type' => $form_state->getValue('unique_row_type')]],
       ],

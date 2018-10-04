@@ -337,6 +337,12 @@ class MigrationAdminForm extends FormBase {
               $field_name . '_target_revision_id' => $field_label . ' target revision id',
             ];
           }
+          if ($field_type == 'text_long') {
+            $field_array = [
+              $field_name . '_value' => $field_label . ' value',
+              $field_name . '_format' => $field_label . ' format',
+            ];
+          }
 
           foreach ($field_array as $field_array_key => $field_array_value) {
             $field_label = $field_array_value;
