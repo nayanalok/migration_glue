@@ -1,0 +1,52 @@
+diff --git a/modules/migration_mapper/src/Form/MigrationAdminForm.php b/modules/migration_mapper/src/Form/MigrationAdminForm.php
+index a3ddb3b..4590047 100644
+--- a/modules/migration_mapper/src/Form/MigrationAdminForm.php
++++ b/modules/migration_mapper/src/Form/MigrationAdminForm.php
+@@ -337,6 +337,12 @@ class MigrationAdminForm extends FormBase {
+               $field_name . '_target_revision_id' => $field_label . ' target revision id',
+             ];
+           }
++          if ($field_type == 'text_long') {
++            $field_array = [
++              $field_name . '_value' => $field_label . ' value',
++              $field_name . '_format' => $field_label . ' format',
++            ];
++          }
+ 
+           foreach ($field_array as $field_array_key => $field_array_value) {
+             $field_label = $field_array_value;
+diff --git a/modules/migration_mapper/src/Plugin/DataSource/Json.php b/modules/migration_mapper/src/Plugin/DataSource/Json.php
+index 9036afe..68f6160 100644
+--- a/modules/migration_mapper/src/Plugin/DataSource/Json.php
++++ b/modules/migration_mapper/src/Plugin/DataSource/Json.php
+@@ -36,6 +36,19 @@ class Json extends DataSourceBase {
+ 
+     array_walk($data, [$this, 'recursiveWalk']);
+ 
++    if (!empty($this->sourcePaths)) {
++      foreach ($this->sourcePaths as $key => $value) {
++        if (strpos($key, $config['source']['json_item_selector']) !== FALSE) {
++          $val = str_replace($config['source']['json_item_selector'], '', $key);
++          unset($this->sourcePaths[$key]);
++          if (empty($val)) {
++            continue;
++          }
++          $this->sourcePaths[$val] = $val;
++        }
++      }
++    }
++
+     return $this->sourcePaths;
+   }
+ 
+@@ -114,8 +127,8 @@ class Json extends DataSourceBase {
+         'plugin' => 'url',
+         'data_parser_plugin' => 'json',
+         'data_fetcher_plugin' => 'file',
+-        'urls' => $form_state->getValue('json_path'),
+-        'item_selector' => $form_state->getValue('json_item_selector'),
++        'urls' => $form_state->getValue('data_source_config_wrapper')['source']['json_path'],
++        'item_selector' => $form_state->getValue('data_source_config_wrapper')['source']['json_item_selector'],
+         'fields' => $this->sourceFieldFormatter($form_state->get('columns')),
+         'ids' => [$form_state->getValue('unique_row_id') => ['type' => $form_state->getValue('unique_row_type')]],
+       ],
