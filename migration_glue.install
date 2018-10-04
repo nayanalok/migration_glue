@@ -12,7 +12,7 @@ use Drupal\migrate_plus\Entity\MigrationGroup;
  */
 function migration_glue_install() {
   // If 'default' migration group not exists in system, then create it.
-  if (empty($default_group = MigrationGroup::load('deafult'))) {
+  if (empty($default_group = MigrationGroup::load('default'))) {
     $group_configuration = [
       'id' => 'default',
     ];
