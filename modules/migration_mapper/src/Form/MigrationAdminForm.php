@@ -315,154 +315,182 @@ class MigrationAdminForm extends FormBase {
           $field_label = $field_name . (($field->isRequired()) ? '*' : '');
           // Get destination field plugins that match the field type.
           $destination_fields = $this->destinationFieldManager->getOptions($field_type);
-          $field_input = [
-            'title' => [
-              '#type' => 'item',
-              '#title' => $field_label . ' - ' . $field_type,
-            ],
+
+          $field_array = [
+            $field_name => $field_label
           ];
-          // Show msg in the rare case a field type is not matched.
-          if (empty($destination_fields)) {
-            $field_input['map_to'] = [
-              '#type' => 'item',
-              '#description' => $field_type,
-              '#prefix' => '<div>',
-              '#suffix' => '</div>',
+
+          // This is customization.
+          // In case of field with type 'text_with_summary', we need few
+          // additional fields for mapping.
+          if ($field_type == 'text_with_summary') {
+            $field_array = [
+              $field_name . '_value' => $field_label . ' value',
+              $field_name . '_summary' => $field_label . ' summary',
+              $field_name . '_format' => $field_label . ' format',
             ];
           }
-          else {
-            // Default set if there is an exact match with a plugin name.
-            $default_type = '_none';
-            if (isset($destination_fields[$field_type])) {
-              $default_type = $field_type;
-            }
-            elseif (count($destination_fields) == 1) {
-              $default_type = current(array_keys($destination_fields));
-            }
-            // Map the column to the field or exclude.
-            $field_input['map_to'] = [
-              '#type' => 'select',
-              '#default_value' => $field_name,
-              '#empty_option' => 'Do not include',
-              '#empty_value' => '_none',
-              '#options' => array_merge(['_default' => 'Set Default'], $columns),
+          if ($field_type == 'entity_reference_revisions') {
+            // For paragraphs.
+            $field_array = [
+              $field_name . '_target_id' => $field_label . ' target id',
+              $field_name . '_target_revision_id' => $field_label . ' target revision id',
             ];
-            // Wrapper for processors.
-            $field_input['field_processor_wrapper'] = [
-              '#type' => 'container',
-              '#attributes' => ['id' => $field_name . '-processor-wrapper'],
+          }
+
+          foreach ($field_array as $field_array_key => $field_array_value) {
+            $field_label = $field_array_value;
+            $field_name = $field_array_key;
+
+            $field_input = [
+              'title' => [
+                '#type' => 'item',
+                '#title' => $field_label . ' - ' . $field_type,
+              ],
             ];
-            $processor_added = FALSE;
-            // Triggers could be add processor or processor type change.
-            $trigger_field_match = strpos($triggering_element['#name'], $field_name) !== FALSE;
-            $remove_processor = ($trigger_field_match && $triggering_element['#value'] == 'Remove');
-            $field_values = $form_values['field_group'][$field_group][$field_name];
-            if (!$remove_processor &&
-              ($trigger_field_match || isset($field_values['field_processor_wrapper']['processor_selector']))) {
-              $processor_added = TRUE;
-              // Retrieves all field processor plugins.
-              $field_processor_plugins = $this->getPluginOptions($this->fieldProcessorManager);
-              $default_processor = $field_values['field_processor_wrapper']['processor_selector'];
-              $field_input['field_processor_wrapper']['processor_selector'] = [
+            // Show msg in the rare case a field type is not matched.
+            if (empty($destination_fields)) {
+              $field_input['map_to'] = [
+                '#type' => 'item',
+                '#description' => $field_type,
+                '#prefix' => '<div>',
+                '#suffix' => '</div>',
+              ];
+            }
+            else {
+              // Default set if there is an exact match with a plugin name.
+              $default_type = '_none';
+              if (isset($destination_fields[$field_type])) {
+                $default_type = $field_type;
+              }
+              elseif (count($destination_fields) == 1) {
+                $default_type = current(array_keys($destination_fields));
+              }
+              // Map the column to the field or exclude.
+              $field_input['map_to'] = [
                 '#type' => 'select',
-                '#title' => 'Processor',
-                '#empty_option' => 'Select',
+                '#default_value' => $field_name,
+                '#empty_option' => 'Do not include',
                 '#empty_value' => '_none',
-                '#default_value' => (empty($default_processor)) ? $default_processor : '_none',
-                '#options' => $field_processor_plugins,
-                '#ajax' => [
-                  'callback' => [$this, 'getProcessorConfig'],
-                  'wrapper' => $field_name . '-added-processor-wrapper',
-                ],
+                '#options' => array_merge(['_default' => 'Set Default'], $columns),
+              ];
+              // Wrapper for processors.
+              $field_input['field_processor_wrapper'] = [
+                '#type' => 'container',
+                '#attributes' => ['id' => $field_name . '-processor-wrapper'],
+              ];
+              $processor_added = FALSE;
+              // Triggers could be add processor or processor type change.
+              $trigger_field_match = strpos($triggering_element['#name'], $field_name) !== FALSE;
+              $remove_processor = ($trigger_field_match && $triggering_element['#value'] == 'Remove');
+              $field_values = $form_values['field_group'][$field_group][$field_name];
+              if (!$remove_processor &&
+                ($trigger_field_match || isset($field_values['field_processor_wrapper']['processor_selector']))) {
+                $processor_added = TRUE;
+                // Retrieves all field processor plugins.
+                $field_processor_plugins = $this->getPluginOptions($this->fieldProcessorManager);
+                $default_processor = $field_values['field_processor_wrapper']['processor_selector'];
+                $field_input['field_processor_wrapper']['processor_selector'] = [
+                  '#type' => 'select',
+                  '#title' => 'Processor',
+                  '#empty_option' => 'Select',
+                  '#empty_value' => '_none',
+                  '#default_value' => (empty($default_processor)) ? $default_processor : '_none',
+                  '#options' => $field_processor_plugins,
+                  '#ajax' => [
+                    'callback' => [$this, 'getProcessorConfig'],
+                    'wrapper' => $field_name . '-added-processor-wrapper',
+                  ],
+                  '#states' => [
+                    'invisible' => [
+                      'select[name="field_group[' . $field_name . '][map_to]"]' => ['value' => '_none'],
+                    ],
+                  ],
+                ];
+                $field_input['field_processor_wrapper']['added_processor_wrapper'] = [
+                  '#type' => 'container',
+                  '#prefix' => '<div id="' . $field_name . '-added-processor-wrapper">',
+                  '#suffix' => '</div>',
+                ];
+                if (!empty($default_processor) && $default_processor != '_none') {
+                  /** @var FieldProcessorInterface $field_processor_plugin */
+                  $field_processor_plugin = $this->fieldProcessorManager->createInstance($default_processor);
+                  $field_input['field_processor_wrapper']['added_processor_wrapper']['config'] = $field_processor_plugin->getFieldProcessorConfig();
+                }
+                $field_input['field_processor_wrapper']['remove_processor'] = [
+                  '#type' => 'button',
+                  '#value' => 'Remove',
+                  '#name' => $field_name . '_remove_processor',
+                  '#ajax' => [
+                    'callback' => [$this, 'removeProcessor'],
+                    'wrapper' => $field_name . '-processor-wrapper',
+                  ],
+                  '#states' => [
+                    'invisible' => [
+                      'select[name="[' . $field_name . '][map_to]"]' => ['value' => '_none'],
+                    ],
+                  ],
+                  '#attributes' => [
+                    'class' => ['processor_btn'],
+                  ],
+                ];
+              }
+              if (!$processor_added) {
+                // Adds processor to this fields import.
+                $field_input['field_processor_wrapper']['add_processor'] = [
+                  '#type' => 'button',
+                  '#value' => 'Add processor',
+                  '#name' => $field_name . '_add_processor',
+                  '#ajax' => [
+                    'callback' => [$this, 'addProcessor'],
+                    'wrapper' => $field_name . '-processor-wrapper',
+                  ],
+                  '#states' => [
+                    'invisible' => [
+                      ['select[name$="[' . $field_name . '][map_to]"]' => ['value' => '_none']],
+                      'or',
+                      ['select[name$="[' . $field_name . '][map_to]"]' => ['value' => '_default']],
+                    ],
+                  ],
+                  '#attributes' => [
+                    'class' => ['processor_btn'],
+                  ],
+                ];
+                $default_value = $field_values['field_processor_wrapper']['default_value'];
+                $field_input['field_processor_wrapper']['default_value'] = [
+                  '#type' => 'textfield',
+                  '#title' => $this->t('Default Value'),
+                  '#default_value' => $default_value,
+                  '#states' => [
+                    'visible' => [
+                      ['select[name$="[' . $field_name . '][map_to]"]' => ['value' => '_default']],
+                    ],
+                  ],
+                ];
+              }
+
+              // Destination field type selection.
+              $field_input['destination'] = [
+                '#title' => 'Field Format',
+                '#type' => 'select',
+                '#default_value' => $default_type,
+                '#options' => $destination_fields,
                 '#states' => [
                   'invisible' => [
                     'select[name="field_group[' . $field_name . '][map_to]"]' => ['value' => '_none'],
                   ],
                 ],
-              ];
-              $field_input['field_processor_wrapper']['added_processor_wrapper'] = [
-                '#type' => 'container',
-                '#prefix' => '<div id="' . $field_name . '-added-processor-wrapper">',
-                '#suffix' => '</div>',
-              ];
-              if (!empty($default_processor) && $default_processor != '_none') {
-                /** @var FieldProcessorInterface $field_processor_plugin */
-                $field_processor_plugin = $this->fieldProcessorManager->createInstance($default_processor);
-                $field_input['field_processor_wrapper']['added_processor_wrapper']['config'] = $field_processor_plugin->getFieldProcessorConfig();
-              }
-              $field_input['field_processor_wrapper']['remove_processor'] = [
-                '#type' => 'button',
-                '#value' => 'Remove',
-                '#name' => $field_name . '_remove_processor',
-                '#ajax' => [
-                  'callback' => [$this, 'removeProcessor'],
-                  'wrapper' => $field_name . '-processor-wrapper',
-                ],
-                '#states' => [
-                  'invisible' => [
-                    'select[name="[' . $field_name . '][map_to]"]' => ['value' => '_none'],
-                  ],
-                ],
-                '#attributes' => [
-                  'class' => ['processor_btn'],
-                ],
+                '#access' => count($destination_fields) > 1,
               ];
             }
-            if (!$processor_added) {
-              // Adds processor to this fields import.
-              $field_input['field_processor_wrapper']['add_processor'] = [
-                '#type' => 'button',
-                '#value' => 'Add processor',
-                '#name' => $field_name . '_add_processor',
-                '#ajax' => [
-                  'callback' => [$this, 'addProcessor'],
-                  'wrapper' => $field_name . '-processor-wrapper',
-                ],
-                '#states' => [
-                  'invisible' => [
-                    ['select[name$="[' . $field_name . '][map_to]"]' => ['value' => '_none']],
-                    'or',
-                    ['select[name$="[' . $field_name . '][map_to]"]' => ['value' => '_default']],
-                  ],
-                ],
-                '#attributes' => [
-                  'class' => ['processor_btn'],
-                ],
-              ];
-              $default_value = $field_values['field_processor_wrapper']['default_value'];
-              $field_input['field_processor_wrapper']['default_value'] = [
-                '#type' => 'textfield',
-                '#title' => $this->t('Default Value'),
-                '#default_value' => $default_value,
-                '#states' => [
-                  'visible' => [
-                    ['select[name$="[' . $field_name . '][map_to]"]' => ['value' => '_default']],
-                  ],
-                ],
-              ];
-            }
-
-            // Destination field type selection.
-            $field_input['destination'] = [
-              '#title' => 'Field Format',
-              '#type' => 'select',
-              '#default_value' => $default_type,
-              '#options' => $destination_fields,
-              '#states' => [
-                'invisible' => [
-                  'select[name="field_group[' . $field_name . '][map_to]"]' => ['value' => '_none'],
-                ],
-              ],
-              '#access' => count($destination_fields) > 1,
+            // Add the above to the form.
+            $field_container = [
+              '#type' => 'container',
+              '#prefix' => '<div id="' . $field_name . '-wrapper">',
+              '#suffix' => '</div>',
             ];
+            $form['process']['field_mapping']['field_group'][$field_group][$field_name] = array_merge($field_container, $field_input);
           }
-          // Add the above to the form.
-          $field_container = [
-            '#type' => 'container',
-            '#prefix' => '<div id="' . $field_name . '-wrapper">',
-            '#suffix' => '</div>',
-          ];
-          $form['process']['field_mapping']['field_group'][$field_group][$field_name] = array_merge($field_container, $field_input);
         }
       }
       // Exports everything to yml.
@@ -597,6 +625,18 @@ class MigrationAdminForm extends FormBase {
               $field_yml = (count($destination_yml) == 1) ? $destination_yml : [$field_name => $destination_yml];
             }
           }
+
+          // This is customization.
+          // If destination field plugin has this value.
+          if (method_exists($destination_field, 'overrideName')) {
+            $overidden_field_name = $destination_field->overrideName($field_name);
+            if(!empty($field_yml[$field_name])) {
+              $new_yml = $field_yml[$field_name];
+              unset($field_yml[$field_name]);
+              $field_yml[$overidden_field_name] = $new_yml;
+            }
+          }
+
           if (!empty($field_yml)) {
             $process_data['process'] = array_merge($process_data['process'], $field_yml);
           }
