@@ -52,8 +52,11 @@ class Xml extends DataSourceBase {
 
     if (!empty($this->sourcePaths)) {
       foreach ($this->sourcePaths as $key => $value) {
-        if (strpos($key, $config['source']['xml_item_selector']) !== FALSE) {
-          $val = str_replace($config['source']['xml_item_selector'], '', $key);
+        $item_selector = $config['source']['xml_item_selector'];
+        // If item selector has is not have '/' in last, we add that.
+        $item_selector = substr($item_selector, -1) != '/' ? $item_selector . '/' : $item_selector;
+        if (strpos($key, $item_selector) !== FALSE) {
+          $val = str_replace($item_selector, '', $key);
           unset($this->sourcePaths[$key]);
           if (empty($val)) {
             continue;
