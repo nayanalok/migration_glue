@@ -10,8 +10,8 @@ use Drupal\migrate\MigrateException;
 /**
  * Replace a patterned specified xpath string in the source.
  *
- * For a given xpathpattern, source string will be replaced by the given replacement
- * string.
+ * For a given xpath pattern, source string will be replaced by the given
+ * replacement string.
  *
  * @code
  * process:
