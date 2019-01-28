@@ -1,4 +1,4 @@
-# acquia_platform_migration
+# Acquia Platform Migration
 
 ## Installation
 * Add below lines in `repositories` section of your `composer.json` file in your project root

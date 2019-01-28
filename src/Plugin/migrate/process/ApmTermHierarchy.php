@@ -31,16 +31,16 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @code
  * process:
  *   type:
- *     plugin: acquia_platform_migration_term_hierarchy
+ *     plugin: apm_term_hierarchy
  *     separator: '/'
  *     bundle: 'tags'
  * @endcode
  *
  * @MigrateProcessPlugin(
- *   id = "acquia_platform_migration_term_hierarchy"
+ *   id = "apm_term_hierarchy"
  * )
  */
-class AcquiaPlatformMigrationTermHierarchy extends ProcessPluginBase implements ContainerFactoryPluginInterface {
+class ApmTermHierarchy extends ProcessPluginBase implements ContainerFactoryPluginInterface {
 
   /**
    * Entity type manager.

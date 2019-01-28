@@ -128,7 +128,7 @@ process:
   status: status
 
   sample_term:
-    plugin: acquia_platform_migration_term_hierarchy
+    plugin: apm_term_hierarchy
     source: sample_term
     separator: '/'
     bundle: tags
@@ -150,14 +150,14 @@ process:
     source: sample_date
   sample_body1:
     -
-      plugin: mg_callback_plus
+      plugin: apm_callback_plus
       source: sample_body1
       parameters:
         - '/'
       callback: ltrim
       sub_pos: first
     -
-      plugin: mg_callback_plus
+      plugin: apm_callback_plus
       parameters:
         - '<h2'
         - '<h3'

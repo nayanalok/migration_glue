@@ -87,4 +87,4 @@ migration_dependencies:
 dependencies:
   enforced:
     module:
-    - apm_paragraph_migrate
+      - apm_paragraph_migrate

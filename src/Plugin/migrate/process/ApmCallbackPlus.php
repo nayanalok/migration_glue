@@ -14,7 +14,7 @@ use Drupal\migrate\Row;
  * So `sub_pos` argument is used to determine the position of subject.
  *
  * @usage1:
- *   plugin: mg_callback_plus
+ *   plugin: apm_callback_plus
  *    source: source
  *    parameters:
  *     - '/'
@@ -22,7 +22,7 @@ use Drupal\migrate\Row;
  *    sub_pos: first
  *
  * @usage2:
- *   plugin: mg_callback_plus
+ *   plugin: apm_callback_plus
  *    source: source
  *    parameters:
  *     - '<h2'
@@ -31,10 +31,10 @@ use Drupal\migrate\Row;
  *    sub_pos: last
  *
  * @MigrateProcessPlugin(
- *   id = "mg_callback_plus"
+ *   id = "apm_callback_plus"
  * )
  */
-class MGCallbackPlus extends ProcessPluginBase {
+class ApmCallbackPlus extends ProcessPluginBase {
 
   /**
    * {@inheritdoc}
