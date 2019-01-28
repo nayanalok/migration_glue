@@ -1,7 +1,0 @@
-name: Migration Glue - Wordpress Examples
-type: module
-description: 'Wordpress to Drupal 8 migration examples.'
-package: Migration
-core: 8.x
-dependencies:
-  - migration_glue:migration_glue

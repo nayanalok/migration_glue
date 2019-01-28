@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\migration_glue\Plugin\DataSource;
+namespace Drupal\acquia_platform_migration\Plugin\DataSource;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\migration_mapper\DataSourceBase;

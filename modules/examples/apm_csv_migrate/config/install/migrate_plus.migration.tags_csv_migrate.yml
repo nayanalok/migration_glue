@@ -1,0 +1,27 @@
+id: tags_csv_migrate
+label: 'Tags CSV Migrate'
+migration_group: default
+source:
+  plugin: csv
+  path: modules/contrib/acquia_platform_migration/modules/examples/apm_csv_migrate/data/taxonomy.csv
+  track_changes: true
+  delimiter: ','
+  enclosure: ''
+  header_row_count: 1
+  keys:
+  - term_name
+process:
+  vid:
+    plugin: default_value
+    default_value: tags
+  name: term_name
+  description/value: term_desc
+  description/format:
+    plugin: default_value
+    default_value: full_html
+destination:
+  plugin: 'entity:taxonomy_term'
+dependencies:
+  enforced:
+    module:
+    - apm_csv_migrate

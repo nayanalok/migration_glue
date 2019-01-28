@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\migration_glue\Plugin\migrate\process;
+namespace Drupal\acquia_platform_migration\Plugin\migrate\process;
 
 use Drupal\migrate\ProcessPluginBase;
 use Drupal\migrate\MigrateExecutableInterface;
@@ -31,16 +31,16 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @code
  * process:
  *   type:
- *     plugin: migration_glue_term_hierarchy
+ *     plugin: acquia_platform_migration_term_hierarchy
  *     separator: '/'
  *     bundle: 'tags'
  * @endcode
  *
  * @MigrateProcessPlugin(
- *   id = "migration_glue_term_hierarchy"
+ *   id = "acquia_platform_migration_term_hierarchy"
  * )
  */
-class MigrationGlueTermHierarchy extends ProcessPluginBase implements ContainerFactoryPluginInterface {
+class AcquiaPlatformMigrationTermHierarchy extends ProcessPluginBase implements ContainerFactoryPluginInterface {
 
   /**
    * Entity type manager.

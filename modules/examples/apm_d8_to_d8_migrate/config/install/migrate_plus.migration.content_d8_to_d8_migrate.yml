@@ -1,0 +1,27 @@
+id: content_d8_to_d8_migrate
+label: 'Content D8 to D8 Migrate'
+migration_group: default
+source:
+  plugin: d8_entity
+  entity_type: node
+  bundle: article
+process:
+  nid: nid
+  vid: vid
+  title: title
+  body: body
+  path: path
+  created: created
+  changed: changed
+  type:
+    plugin: default_value
+    default_value: article
+  uid: uid
+  status: status
+  langcode: langcode
+destination:
+  plugin: 'entity:node'
+dependencies:
+  enforced:
+    module:
+      - apm_d8_to_d8_migrate

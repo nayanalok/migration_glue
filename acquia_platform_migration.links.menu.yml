@@ -1,0 +1,8 @@
+acquia_platform_migration.list_migration:
+  title: 'Acquia Platform Migration'
+  description: 'Create and run migrations by UI.'
+  route_name: acquia_platform_migration.list_migration
+  route_parameters:
+    migration_group: default
+  parent: system.admin_config_development
+  weight: 99

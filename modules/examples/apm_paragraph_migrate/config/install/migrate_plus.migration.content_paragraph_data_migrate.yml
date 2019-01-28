@@ -1,0 +1,36 @@
+id: content_paragraph_data_migrate
+label: 'Content Paragraph Data Migrate'
+migration_group: default
+source:
+  plugin: url
+  urls: modules/contrib/acquia_platform_migration/modules/examples/apm_paragraph_migrate/data/content.json
+  data_fetcher_plugin: file
+  data_parser_plugin: json
+  item_selector: /blogs
+  fields:
+  -
+    name: id
+    label: id
+    selector: id
+  -
+    name: body
+    label: body
+    selector: body
+
+  ids:
+    id:
+      type: string
+process:
+  type:
+    plugin: default_value
+    default_value: migration_example_paragraph
+  field_example_body/value: body
+  field_example_body/format:
+    plugin: default_value
+    default_value: basic_html
+destination:
+  plugin: entity_reference_revisions:paragraph
+dependencies:
+  enforced:
+    module:
+    - apm_paragraph_migrate

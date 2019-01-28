@@ -1,0 +1,104 @@
+id: user_xml_migrate
+label: 'User XML Migrate'
+migration_group: default
+source:
+  plugin: url
+  data_parser_plugin: xml
+  data_fetcher_plugin: file
+  urls: modules/contrib/acquia_platform_migration/modules/examples/apm_xml_migrate/data/users.xml
+  item_selector: /document/user
+  fields:
+    -
+      selector: /document/user
+      label: /document/user
+      name: /document/user
+    -
+      selector: id
+      label: id
+      name: id
+    -
+      selector: email
+      label: email
+      name: email
+    -
+      selector: username
+      label: username
+      name: username
+    -
+      selector: password
+      label: password
+      name: password
+    -
+      selector: roles
+      label: roles
+      name: roles
+    -
+      selector: fullname
+      label: fullname
+      name: fullname
+    -
+      selector: created
+      label: created
+      name: created
+    -
+      selector: updated
+      label: updated
+      name: updated
+    -
+      selector: status
+      label: status
+      name: status
+    -
+      selector: picture
+      label: picture
+      name: picture
+    -
+      selector: language
+      label: language
+      name: language
+  ids:
+    username:
+      type: string
+process:
+  user_picture:
+    plugin: image_import
+    source: picture
+    destination: 'public://images/'
+    title: ''
+    alt: ''
+    height: ''
+    width: ''
+  name: username
+  pass:
+    plugin: skip_on_empty
+    method: process
+    source: password
+  roles:
+    -
+      plugin: explode
+      source: roles
+      limit: 100
+      delimiter: ','
+    -
+      plugin: static_map
+      map:
+        admin: administrator
+        normal: authenticated
+  created:
+    plugin: callback
+    callable: strtotime
+    source: created
+  changed:
+    plugin: callback
+    callable: strtotime
+    source: updated
+  status: status
+  mail: email
+  langcode: language
+destination:
+  plugin: 'entity:user'
+  md5_passwords: true
+dependencies:
+  enforced:
+    module:
+      - apm_xml_migrate

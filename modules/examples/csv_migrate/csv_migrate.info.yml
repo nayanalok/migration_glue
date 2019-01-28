@@ -1,7 +1,0 @@
-name: Migration Glue - CSV Examples
-type: module
-description: 'CSV to Drupal 8 migration examples.'
-package: Migration
-core: 8.x
-dependencies:
-  - migration_glue:migration_glue

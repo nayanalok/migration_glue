@@ -1,0 +1,11 @@
+name: Acquia Platform Migration (APM)
+type: module
+description: 'Glue between migrate_tools and migration_mapper.'
+package: Migration
+core: 8.x
+dependencies:
+  - migrate_tools:migrate_tools (= 4.0-rc1)
+  - migration_mapper:migration_mapper
+  - migrate_source_csv:migrate_source_csv
+  - migrate_file:migrate_file
+  - migrate_process_inline_images:migrate_process_inline_images

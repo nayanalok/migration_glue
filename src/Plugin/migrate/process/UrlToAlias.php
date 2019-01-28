@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\migration_glue\Plugin\migrate\process;
+namespace Drupal\acquia_platform_migration\Plugin\migrate\process;
 
 use Drupal\migrate\MigrateExecutableInterface;
 use Drupal\migrate\MigrateSkipProcessException;

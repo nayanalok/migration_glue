@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\migration_glue\Plugin\FieldProcessor;
+namespace Drupal\acquia_platform_migration\Plugin\FieldProcessor;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
@@ -27,7 +27,7 @@ class MigrationLookup extends FieldProcessorBase {
       '#type' => 'select',
       '#description' => $this->t('Please select migration.'),
       '#title' => $this->t('Migration'),
-      '#options' => \Drupal::service('migration_glue.manager')->getMigrationList(),
+      '#options' => \Drupal::service('acquia_platform_migration.manager')->getMigrationList(),
     ];
 
     $form['no_stub'] = [

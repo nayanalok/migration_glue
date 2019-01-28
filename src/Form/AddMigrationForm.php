@@ -1,8 +1,8 @@
 <?php
 
-namespace Drupal\migration_glue\Form;
+namespace Drupal\acquia_platform_migration\Form;
 
-use Drupal\migration_glue\MigrationGlueManager;
+use Drupal\acquia_platform_migration\AcquiaPlatformMigrationManager;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Serialization\Yaml;
@@ -22,20 +22,20 @@ class AddMigrationForm extends FormBase {
   ];
 
   /**
-   * Migration glue manager.
+   * Acquia Platform Migration manager.
    *
-   * @var \Drupal\migration_glue\MigrationGlueManager
+   * @var \Drupal\acquia_platform_migration\AcquiaPlatformMigrationManager
    */
-  protected $migrationGlueManager;
+  protected $acquiaPlatformMigrationManager;
 
   /**
    * AddMigrationForm constructor.
    *
-   * @param \Drupal\migration_glue\MigrationGlueManager $glue_manager
-   *   Migration glue manager.
+   * @param \Drupal\acquia_platform_migration\$acquiaPlatformMigrationManager $acquia_platform_migration_manager
+   *   Acquia Platform Migration manager.
    */
-  public function __construct(MigrationGlueManager $glue_manager) {
-    $this->migrationGlueManager = $glue_manager;
+  public function __construct(AcquiaPlatformMigrationManager $acquia_platform_migration_manager) {
+    $this->acquiaPlatformMigrationManager = $acquia_platform_migration_manager;
   }
 
   /**
@@ -43,7 +43,7 @@ class AddMigrationForm extends FormBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('migration_glue.manager')
+      $container->get('acquia_platform_migration.manager')
     );
   }
 
@@ -73,7 +73,7 @@ class AddMigrationForm extends FormBase {
     $form['back_link'] = [
       '#title' => $this->t('Go Back'),
       '#type' => 'link',
-      '#url' => Url::fromRoute('migration_glue.list_migration', ['migration_group' => 'default']),
+      '#url' => Url::fromRoute('acquia_platform_migration.list_migration', ['migration_group' => 'default']),
       '#attributes' => [
         'class' => ['button']
       ]
@@ -104,7 +104,7 @@ class AddMigrationForm extends FormBase {
     }
 
     // Get existing migrations.
-    $existing_migrations = $this->migrationGlueManager->getMigrationList();
+    $existing_migrations = $this->acquiaPlatformMigrationManager->getMigrationList();
     // If migration with same id already exists.
     if (array_key_exists($yml_data['id'], $existing_migrations)) {
       $form_state->setErrorByName('migration', $this->t('Migration with the id: @id already exists. Please change the id.', [
@@ -118,9 +118,9 @@ class AddMigrationForm extends FormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $yml_data = Yaml::decode($form_state->getValue('migration'));
-    $this->migrationGlueManager->registerMigration($yml_data);
+    $this->acquiaPlatformMigrationManager->registerMigration($yml_data);
     $this->messenger()->addMessage($this->t('Migration is created successfully.'));
-    $form_state->setRedirect('migration_glue.list_migration', ['migration_group' => 'default']);
+    $form_state->setRedirect('acquia_platform_migration.list_migration', ['migration_group' => 'default']);
   }
 
 }

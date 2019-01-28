@@ -1,0 +1,55 @@
+acquia_platform_migration.create_migration:
+  path: '/admin/config/development/create-migration'
+  defaults:
+    _controller: '\Drupal\acquia_platform_migration\Controller\AcquiaPlatformMigrationController::createMigration'
+    _title: 'Create Migration - UI'
+  requirements:
+    _permission: 'administer migrations'
+
+acquia_platform_migration.run_migration:
+  path: '/admin/config/development/{migration_group}/{migration}/run-migration'
+  defaults:
+    _controller: '\Drupal\acquia_platform_migration\Controller\AcquiaPlatformMigrationController::runMigration'
+    _title: 'Execute Migration'
+  requirements:
+    _permission: 'administer migrations'
+
+acquia_platform_migration.list_migration:
+  path: '/admin/config/development/{migration_group}/list-migrations'
+  defaults:
+    _controller: '\Drupal\acquia_platform_migration\Controller\AcquiaPlatformMigrationController::listMigrations'
+    _title: 'List Migration'
+  requirements:
+    _permission: 'administer migrations'
+
+acquia_platform_migration.add_migration:
+  path: '/admin/config/development/add-migration'
+  defaults:
+    _controller: '\Drupal\acquia_platform_migration\Controller\AcquiaPlatformMigrationController::addMigration'
+    _title: 'Create Migration - YAML'
+  requirements:
+    _permission: 'administer migrations'
+
+acquia_platform_migration.edit_migration:
+  path: '/admin/config/development/edit-migrations'
+  defaults:
+    _controller: '\Drupal\acquia_platform_migration\Controller\AcquiaPlatformMigrationController::editMigrations'
+    _title: 'Edit Migration YML'
+  requirements:
+    _permission: 'administer migrations'
+
+acquia_platform_migration.delete_migration:
+  path: '/admin/config/development/{id}/delete-migration'
+  defaults:
+    _form: '\Drupal\acquia_platform_migration\Form\ConfirmMigrationDeleteForm'
+    _title: 'Delete Migration'
+  requirements:
+    _permission: 'administer migrations'
+
+acquia_platform_migration.clone_migration:
+  path: '/admin/config/development/{id}/clone-migration'
+  defaults:
+    _form: '\Drupal\acquia_platform_migration\Form\ConfirmMigrationCloneForm'
+    _title: 'Clone Migration'
+  requirements:
+    _permission: 'administer migrations'

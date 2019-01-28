@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\migration_glue\Plugin\DestinationField;
+namespace Drupal\acquia_platform_migration\Plugin\DestinationField;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\migration_mapper\DestinationFieldBase;

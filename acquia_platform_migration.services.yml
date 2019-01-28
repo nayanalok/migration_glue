@@ -1,0 +1,4 @@
+services:
+  acquia_platform_migration.manager:
+    class: Drupal\acquia_platform_migration\AcquiaPlatformMigrationManager
+    arguments: ['@config.factory', '@plugin.manager.migration']

@@ -1,0 +1,7 @@
+name: Acquia Platform Migration - Blogger Examples
+type: module
+description: 'Blogger to Drupal 8 migration examples.'
+package: Migration
+core: 8.x
+dependencies:
+  - acquia_platform_migration:acquia_platform_migration

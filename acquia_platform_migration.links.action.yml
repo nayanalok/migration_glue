@@ -1,0 +1,11 @@
+acquia_platform_migration.create_migration:
+  route_name: acquia_platform_migration.create_migration
+  title: 'Create Migration - UI'
+  appears_on:
+    - acquia_platform_migration.list_migration
+
+acquia_platform_migration.add_migration:
+  route_name: acquia_platform_migration.add_migration
+  title: 'Create Migration - YAML'
+  appears_on:
+    - acquia_platform_migration.list_migration
