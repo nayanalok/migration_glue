@@ -13,6 +13,12 @@ acquia_platform_migration.run_migration:
     _title: 'Execute Migration'
   requirements:
     _permission: 'administer migrations'
+  options:
+    parameters:
+      migration:
+        type: entity:migration
+      migration_group:
+        type: entity:migration_group
 
 acquia_platform_migration.list_migration:
   path: '/admin/config/development/{migration_group}/list-migrations'
