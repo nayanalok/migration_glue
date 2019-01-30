@@ -1,9 +1,9 @@
 <?php
 
-namespace Drupal\migration_glue\Form;
+namespace Drupal\acquia_platform_migration\Form;
 
 use Drupal\Core\Config\StorageInterface;
-use Drupal\migration_glue\MigrationGlueManager;
+use Drupal\acquia_platform_migration\AcquiaPlatformMigrationManager;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Serialization\Yaml;
@@ -24,11 +24,11 @@ class EditMigrationForm extends FormBase {
   protected $configStorage;
 
   /**
-   * Migration glue manager.
+   * Acquia Platform Migration manager.
    *
-   * @var \Drupal\migration_glue\MigrationGlueManager
+   * @var \Drupal\acquia_platform_migration\AcquiaPlatformMigrationManager
    */
-  protected $migrationGlueManager;
+  protected $acquiaPlatformMigrationManager;
 
   /**
    * Request stack.
@@ -42,14 +42,14 @@ class EditMigrationForm extends FormBase {
    *
    * @param \Drupal\Core\Config\StorageInterface $config_storage
    *   Config storage.
-   * @param \Drupal\migration_glue\MigrationGlueManager $glue_manager
-   *   Migration glue manager.
+   * @param \Drupal\acquia_platform_migration\AcquiaPlatformMigrationManager $acquia_platform_migration_manager
+   *   Acquia Platform Migration manager.
    * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
    *   Request stack.
    */
-  public function __construct(StorageInterface $config_storage, MigrationGlueManager $glue_manager, RequestStack $request_stack) {
+  public function __construct(StorageInterface $config_storage, AcquiaPlatformMigrationManager $acquia_platform_migration_manager, RequestStack $request_stack) {
     $this->configStorage = $config_storage;
-    $this->migrationGlueManager = $glue_manager;
+    $this->acquiaPlatformMigrationManager = $acquia_platform_migration_manager;
     $this->requestStack = $request_stack;
   }
 
@@ -59,7 +59,7 @@ class EditMigrationForm extends FormBase {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('config.storage'),
-      $container->get('migration_glue.manager'),
+      $container->get('acquia_platform_migration.manager'),
       $container->get('request_stack')
     );
   }
@@ -79,7 +79,7 @@ class EditMigrationForm extends FormBase {
       '#type' => 'select',
       '#title' => $this->t('Select migration'),
       '#required' => TRUE,
-      '#options' => ['' => $this->t('- Select -')] + $this->migrationGlueManager->getMigrationList(),
+      '#options' => ['' => $this->t('- Select -')] + $this->acquiaPlatformMigrationManager->getMigrationList(),
       '#ajax' => [
         'callback' => '::updateExport',
         'wrapper' => 'migration-wrapper',
@@ -113,7 +113,7 @@ class EditMigrationForm extends FormBase {
     $form['actions']['back_link'] = [
       '#title' => $this->t('Go Back'),
       '#type' => 'link',
-      '#url' => Url::fromRoute('migration_glue.list_migration', ['migration_group' => 'default']),
+      '#url' => Url::fromRoute('acquia_platform_migration.list_migration', ['migration_group' => 'default']),
       '#attributes' => [
         'class' => ['button']
       ]
@@ -137,7 +137,7 @@ class EditMigrationForm extends FormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $value = $form_state->getValue('export');
     $yml_data = Yaml::decode($value);
-    $this->migrationGlueManager->registerMigration($yml_data);
+    $this->acquiaPlatformMigrationManager->registerMigration($yml_data);
     $this->messenger()->addMessage($this->t('Migration is updated successfully.'));
   }
 

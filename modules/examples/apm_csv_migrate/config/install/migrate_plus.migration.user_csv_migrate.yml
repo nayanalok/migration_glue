@@ -1,0 +1,27 @@
+id: user_csv_migrate
+label: 'User CSV Migrate'
+migration_group: default
+source:
+  plugin: csv
+  path: modules/contrib/acquia_platform_migration/modules/examples/apm_csv_migrate/data/users.csv
+  track_changes: true
+  delimiter: ','
+  enclosure: ''
+  header_row_count: 1
+  keys:
+  - email
+process:
+  name: username
+  created:
+    plugin: callback
+    callable: strtotime
+    source: created
+  status: status
+  mail: email
+destination:
+  plugin: 'entity:user'
+  md5_passwords: true
+dependencies:
+  enforced:
+    module:
+    - apm_csv_migrate

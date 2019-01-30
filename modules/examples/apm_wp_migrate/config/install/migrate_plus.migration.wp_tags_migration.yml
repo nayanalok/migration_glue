@@ -1,0 +1,308 @@
+id: wp_tags_migration
+label: 'Wordpress Tags Migration'
+migration_group: default
+source:
+  plugin: url
+  data_parser_plugin: xml
+  data_fetcher_plugin: file
+  urls: modules/contrib/acquia_platform_migration/modules/examples/apm_wp_migrate/data/wordpress_solutionshint_2018-09-10.xml
+  item_selector: /rss/channel/wp_term
+  fields:
+    -
+      selector: /rss/@attributes/version
+      label: /rss/@attributes/version
+      name: /rss/@attributes/version
+    -
+      selector: /rss/@attributes
+      label: /rss/@attributes
+      name: /rss/@attributes
+    -
+      selector: /rss/channel/title
+      label: /rss/channel/title
+      name: /rss/channel/title
+    -
+      selector: /rss/channel/link
+      label: /rss/channel/link
+      name: /rss/channel/link
+    -
+      selector: /rss/channel/description
+      label: /rss/channel/description
+      name: /rss/channel/description
+    -
+      selector: /rss/channel/pubDate
+      label: /rss/channel/pubDate
+      name: /rss/channel/pubDate
+    -
+      selector: /rss/channel/language
+      label: /rss/channel/language
+      name: /rss/channel/language
+    -
+      selector: /rss/channel/wp_wxr_version
+      label: /rss/channel/wp_wxr_version
+      name: /rss/channel/wp_wxr_version
+    -
+      selector: /rss/channel/wp_base_site_url
+      label: /rss/channel/wp_base_site_url
+      name: /rss/channel/wp_base_site_url
+    -
+      selector: /rss/channel/wp_base_blog_url
+      label: /rss/channel/wp_base_blog_url
+      name: /rss/channel/wp_base_blog_url
+    -
+      selector: /rss/channel/wp_author/wp_author_id
+      label: /rss/channel/wp_author/wp_author_id
+      name: /rss/channel/wp_author/wp_author_id
+    -
+      selector: /rss/channel/wp_author/wp_author_login
+      label: /rss/channel/wp_author/wp_author_login
+      name: /rss/channel/wp_author/wp_author_login
+    -
+      selector: /rss/channel/wp_author/wp_author_email
+      label: /rss/channel/wp_author/wp_author_email
+      name: /rss/channel/wp_author/wp_author_email
+    -
+      selector: /rss/channel/wp_author/wp_author_display_name
+      label: /rss/channel/wp_author/wp_author_display_name
+      name: /rss/channel/wp_author/wp_author_display_name
+    -
+      selector: /rss/channel/wp_author/wp_author_first_name
+      label: /rss/channel/wp_author/wp_author_first_name
+      name: /rss/channel/wp_author/wp_author_first_name
+    -
+      selector: /rss/channel/wp_author/wp_author_last_name
+      label: /rss/channel/wp_author/wp_author_last_name
+      name: /rss/channel/wp_author/wp_author_last_name
+    -
+      selector: /rss/channel/wp_author
+      label: /rss/channel/wp_author
+      name: /rss/channel/wp_author
+    -
+      selector: /rss/channel/wp_category/wp_term_id
+      label: /rss/channel/wp_category/wp_term_id
+      name: /rss/channel/wp_category/wp_term_id
+    -
+      selector: /rss/channel/wp_category/wp_category_nicename
+      label: /rss/channel/wp_category/wp_category_nicename
+      name: /rss/channel/wp_category/wp_category_nicename
+    -
+      selector: /rss/channel/wp_category/wp_category_parent
+      label: /rss/channel/wp_category/wp_category_parent
+      name: /rss/channel/wp_category/wp_category_parent
+    -
+      selector: /rss/channel/wp_category/wp_cat_name
+      label: /rss/channel/wp_category/wp_cat_name
+      name: /rss/channel/wp_category/wp_cat_name
+    -
+      selector: /rss/channel/wp_category
+      label: /rss/channel/wp_category
+      name: /rss/channel/wp_category
+    -
+      selector: /rss/channel/wp_term
+      label: /rss/channel/wp_term
+      name: /rss/channel/wp_term
+    -
+      selector: /rss/channel/generator
+      label: /rss/channel/generator
+      name: /rss/channel/generator
+    -
+      selector: /rss/channel/item/title
+      label: /rss/channel/item/title
+      name: /rss/channel/item/title
+    -
+      selector: /rss/channel/item/link
+      label: /rss/channel/item/link
+      name: /rss/channel/item/link
+    -
+      selector: /rss/channel/item/pubDate
+      label: /rss/channel/item/pubDate
+      name: /rss/channel/item/pubDate
+    -
+      selector: /rss/channel/item/dc_creator
+      label: /rss/channel/item/dc_creator
+      name: /rss/channel/item/dc_creator
+    -
+      selector: /rss/channel/item/guid
+      label: /rss/channel/item/guid
+      name: /rss/channel/item/guid
+    -
+      selector: /rss/channel/item/description
+      label: /rss/channel/item/description
+      name: /rss/channel/item/description
+    -
+      selector: /rss/channel/item/content_encoded
+      label: /rss/channel/item/content_encoded
+      name: /rss/channel/item/content_encoded
+    -
+      selector: /rss/channel/item/excerpt_encoded
+      label: /rss/channel/item/excerpt_encoded
+      name: /rss/channel/item/excerpt_encoded
+    -
+      selector: /rss/channel/item/wp_post_id
+      label: /rss/channel/item/wp_post_id
+      name: /rss/channel/item/wp_post_id
+    -
+      selector: /rss/channel/item/wp_post_date
+      label: /rss/channel/item/wp_post_date
+      name: /rss/channel/item/wp_post_date
+    -
+      selector: /rss/channel/item/wp_post_date_gmt
+      label: /rss/channel/item/wp_post_date_gmt
+      name: /rss/channel/item/wp_post_date_gmt
+    -
+      selector: /rss/channel/item/wp_comment_status
+      label: /rss/channel/item/wp_comment_status
+      name: /rss/channel/item/wp_comment_status
+    -
+      selector: /rss/channel/item/wp_ping_status
+      label: /rss/channel/item/wp_ping_status
+      name: /rss/channel/item/wp_ping_status
+    -
+      selector: /rss/channel/item/wp_post_name
+      label: /rss/channel/item/wp_post_name
+      name: /rss/channel/item/wp_post_name
+    -
+      selector: /rss/channel/item/wp_status
+      label: /rss/channel/item/wp_status
+      name: /rss/channel/item/wp_status
+    -
+      selector: /rss/channel/item/wp_post_parent
+      label: /rss/channel/item/wp_post_parent
+      name: /rss/channel/item/wp_post_parent
+    -
+      selector: /rss/channel/item/wp_menu_order
+      label: /rss/channel/item/wp_menu_order
+      name: /rss/channel/item/wp_menu_order
+    -
+      selector: /rss/channel/item/wp_post_type
+      label: /rss/channel/item/wp_post_type
+      name: /rss/channel/item/wp_post_type
+    -
+      selector: /rss/channel/item/wp_post_password
+      label: /rss/channel/item/wp_post_password
+      name: /rss/channel/item/wp_post_password
+    -
+      selector: /rss/channel/item/wp_is_sticky
+      label: /rss/channel/item/wp_is_sticky
+      name: /rss/channel/item/wp_is_sticky
+    -
+      selector: /rss/channel/item/category/@attributes/domain
+      label: /rss/channel/item/category/@attributes/domain
+      name: /rss/channel/item/category/@attributes/domain
+    -
+      selector: /rss/channel/item/category/@attributes/nicename
+      label: /rss/channel/item/category/@attributes/nicename
+      name: /rss/channel/item/category/@attributes/nicename
+    -
+      selector: /rss/channel/item/category/@attributes
+      label: /rss/channel/item/category/@attributes
+      name: /rss/channel/item/category/@attributes
+    -
+      selector: /rss/channel/item/category
+      label: /rss/channel/item/category
+      name: /rss/channel/item/category
+    -
+      selector: /rss/channel/item/wp_postmeta/wp_meta_key
+      label: /rss/channel/item/wp_postmeta/wp_meta_key
+      name: /rss/channel/item/wp_postmeta/wp_meta_key
+    -
+      selector: /rss/channel/item/wp_postmeta/wp_meta_value
+      label: /rss/channel/item/wp_postmeta/wp_meta_value
+      name: /rss/channel/item/wp_postmeta/wp_meta_value
+    -
+      selector: /rss/channel/item/wp_postmeta
+      label: /rss/channel/item/wp_postmeta
+      name: /rss/channel/item/wp_postmeta
+    -
+      selector: /rss/channel/item/wp_comment/wp_comment_id
+      label: /rss/channel/item/wp_comment/wp_comment_id
+      name: /rss/channel/item/wp_comment/wp_comment_id
+    -
+      selector: /rss/channel/item/wp_comment/wp_comment_author
+      label: /rss/channel/item/wp_comment/wp_comment_author
+      name: /rss/channel/item/wp_comment/wp_comment_author
+    -
+      selector: /rss/channel/item/wp_comment/wp_comment_author_email
+      label: /rss/channel/item/wp_comment/wp_comment_author_email
+      name: /rss/channel/item/wp_comment/wp_comment_author_email
+    -
+      selector: /rss/channel/item/wp_comment/wp_comment_author_url
+      label: /rss/channel/item/wp_comment/wp_comment_author_url
+      name: /rss/channel/item/wp_comment/wp_comment_author_url
+    -
+      selector: /rss/channel/item/wp_comment/wp_comment_author_IP
+      label: /rss/channel/item/wp_comment/wp_comment_author_IP
+      name: /rss/channel/item/wp_comment/wp_comment_author_IP
+    -
+      selector: /rss/channel/item/wp_comment/wp_comment_date
+      label: /rss/channel/item/wp_comment/wp_comment_date
+      name: /rss/channel/item/wp_comment/wp_comment_date
+    -
+      selector: /rss/channel/item/wp_comment/wp_comment_date_gmt
+      label: /rss/channel/item/wp_comment/wp_comment_date_gmt
+      name: /rss/channel/item/wp_comment/wp_comment_date_gmt
+    -
+      selector: /rss/channel/item/wp_comment/wp_comment_content
+      label: /rss/channel/item/wp_comment/wp_comment_content
+      name: /rss/channel/item/wp_comment/wp_comment_content
+    -
+      selector: /rss/channel/item/wp_comment/wp_comment_approved
+      label: /rss/channel/item/wp_comment/wp_comment_approved
+      name: /rss/channel/item/wp_comment/wp_comment_approved
+    -
+      selector: /rss/channel/item/wp_comment/wp_comment_type
+      label: /rss/channel/item/wp_comment/wp_comment_type
+      name: /rss/channel/item/wp_comment/wp_comment_type
+    -
+      selector: /rss/channel/item/wp_comment/wp_comment_parent
+      label: /rss/channel/item/wp_comment/wp_comment_parent
+      name: /rss/channel/item/wp_comment/wp_comment_parent
+    -
+      selector: /rss/channel/item/wp_comment/wp_comment_user_id
+      label: /rss/channel/item/wp_comment/wp_comment_user_id
+      name: /rss/channel/item/wp_comment/wp_comment_user_id
+    -
+      selector: /rss/channel/item/wp_comment
+      label: /rss/channel/item/wp_comment
+      name: /rss/channel/item/wp_comment
+    -
+      selector: /rss/channel/item
+      label: /rss/channel/item
+      name: /rss/channel/item
+    -
+      selector: /rss/channel
+      label: /rss/channel
+      name: /rss/channel
+    -
+      selector: wp_term_id
+      label: wp_term_id
+      name: wp_term_id
+    -
+      selector: wp_term_taxonomy
+      label: wp_term_taxonomy
+      name: wp_term_taxonomy
+    -
+      selector: wp_term_slug
+      label: wp_term_slug
+      name: wp_term_slug
+    -
+      selector: wp_term_parent
+      label: wp_term_parent
+      name: wp_term_parent
+    -
+      selector: wp_term_name
+      label: wp_term_name
+      name: wp_term_name
+  ids:
+    wp_term_name:
+      type: string
+process:
+  vid:
+    plugin: default_value
+    default_value: tags
+  name: wp_term_name
+destination:
+  plugin: 'entity:taxonomy_term'
+dependencies:
+  enforced:
+    module:
+      - apm_wp_migrate

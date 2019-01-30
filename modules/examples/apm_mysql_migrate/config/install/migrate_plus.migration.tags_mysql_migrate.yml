@@ -1,0 +1,20 @@
+id: tags_mysql_migrate
+label: 'Tags MySQL Migrate'
+migration_group: default
+source:
+  plugin: apm_sample_sql_taxonomy
+process:
+  vid:
+    plugin: default_value
+    default_value: tags
+  name: term_name
+  description/value: term_desc
+  description/format:
+    plugin: default_value
+    default_value: full_html
+destination:
+  plugin: 'entity:taxonomy_term'
+dependencies:
+  enforced:
+    module:
+      - apm_mysql_migrate

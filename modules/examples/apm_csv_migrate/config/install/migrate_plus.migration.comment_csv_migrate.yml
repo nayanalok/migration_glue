@@ -1,0 +1,62 @@
+id: comment_csv_migrate
+label: 'Comment CSV Migrate'
+migration_group: default
+source:
+  plugin: csv
+  path: modules/contrib/acquia_platform_migration/modules/examples/apm_csv_migrate/data/comments.csv
+  track_changes: true
+  delimiter: ','
+  enclosure: ''
+  header_row_count: 1
+  keys:
+  - id
+process:
+  comment_type:
+    plugin: default_value
+    default_value: comment
+  entity_type:
+    plugin: default_value
+    default_value: node
+  comment_body/value: content
+  comment_body/format:
+    plugin: default_value
+    default_value: full_html
+  entity_id:
+    plugin: migration_lookup
+    migration: content_csv_migrate
+    no_stub: '0'
+    source: content_id
+  field_name:
+    plugin: default_value
+    default_value: comment
+  pid:
+  -
+    plugin: skip_on_empty
+    method: process
+    source: reply_to
+  -
+    plugin: migration_lookup
+    migration: comment_csv_migrate
+    no_stub: '0'
+  created:
+    plugin: callback
+    callable: strtotime
+    source: created
+  uid:
+    plugin: migration_lookup
+    migration: user_csv_migrate
+    no_stub: '0'
+    source: comment_by
+  subject: title
+  status:
+    plugin: default_value
+    default_value: true
+  langcode:
+    plugin: default_value
+    default_value: en
+destination:
+  plugin: 'entity:comment'
+dependencies:
+  enforced:
+    module:
+    - apm_csv_migrate

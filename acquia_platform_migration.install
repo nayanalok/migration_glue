@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the acquia_platform_migration module.
+ */
+
+use Drupal\migrate_plus\Entity\MigrationGroup;
+
+/**
+ * Implements hook_install().
+ */
+function acquia_platform_migration_install() {
+  // If 'default' migration group not exists in system, then create it.
+  if (empty($default_group = MigrationGroup::load('default'))) {
+    $group_configuration = [
+      'id' => 'default',
+      'label' => 'Default',
+    ];
+    $migration_group = \Drupal::getContainer()->get('entity_type.manager')
+      ->getStorage('migration_group')->create($group_configuration);
+    $migration_group->save();
+  }
+}

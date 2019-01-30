@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\migration_glue\Plugin\DestinationType;
+namespace Drupal\acquia_platform_migration\Plugin\DestinationType;
 
 use Drupal\migration_mapper\DestinationTypeBase;
 use Drupal\comment\Entity\CommentType;

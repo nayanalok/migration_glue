@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\migration_glue\Form;
+namespace Drupal\acquia_platform_migration\Form;
 
 use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -48,7 +48,7 @@ class ConfirmMigrationDeleteForm extends ConfirmFormBase {
    * {@inheritdoc}
    */
   public function getCancelUrl() {
-    return new Url('migration_glue.list_migration', [
+    return new Url('acquia_platform_migration.list_migration', [
       'migration_group' => 'default',
     ]);
   }

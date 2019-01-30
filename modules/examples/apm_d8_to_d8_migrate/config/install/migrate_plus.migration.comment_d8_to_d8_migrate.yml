@@ -1,0 +1,32 @@
+id: comment_d8_to_d8_migrate
+label: 'Comment D8 to D8 Migrate'
+migration_group: default
+source:
+  plugin: d8_entity
+  entity_type: comment
+process:
+  cid: cid
+  comment_type: comment_type
+  langcode: langcode
+  entity_id: entity_id
+  revision_id: revision_id
+  subject: subject
+  uid: uid
+  name: name
+  mail: mail
+  homepage: homepage
+  hostname: hostname
+  created: created
+  changed: changed
+  status: status
+  thread: thread
+  entity_type: entity_type
+  field_name: field_name
+  comment_body: comment_body
+  field_comments: field_comments
+destination:
+  plugin: 'entity:comment'
+dependencies:
+  enforced:
+    module:
+      - apm_d8_to_d8_migrate

@@ -1,9 +1,0 @@
-name: Migration Glue - D8 to D8 Migrate Examples
-type: module
-description: 'XML to Drupal 8 migration examples.'
-package: Migration
-core: 8.x
-dependencies:
-  - migration_glue:migration_glue
-  - migrate_drupal:migrate_drupal
-  - migrate_drupal_d8:migrate_drupal_d8

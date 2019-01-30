@@ -1,7 +1,0 @@
-name: Migration Glue - JSON Examples
-type: module
-description: 'JSON to Drupal 8 migration examples.'
-package: Migration
-core: 8.x
-dependencies:
-  - migration_glue:migration_glue

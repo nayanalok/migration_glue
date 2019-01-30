@@ -1,7 +1,0 @@
-name: Migration Glue - Mysql Examples
-type: module
-description: 'Mysql to Drupal 8 migration examples.'
-package: Migration
-core: 8.x
-dependencies:
-  - migration_glue:migration_glue
