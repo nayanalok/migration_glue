@@ -4,7 +4,6 @@ namespace Drupal\acquia_platform_migration\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Class AcquiaPlatformMigrationController
@@ -30,16 +29,10 @@ class AcquiaPlatformMigrationController extends ControllerBase {
    * @param string $migration
    *   Migration name.
    *
-   * @return array|RedirectResponse
-   *   Migration execution form or redirects to migration creation form.
+   * @return array
+   *   Migration execution form.
    */
   public function runMigration($migration_group = 'no_migration', $migration = 'no_migration') {
-    if ($migration == 'no_migration' || $migration_group == 'no_migration') {
-      $this->messenger()->addError(t('Please create your migration first.'));
-      $url = Url::fromRoute('acquia_platform_migration.create_migration')->toString();
-      return new RedirectResponse($url);
-    }
-
     return $this->formBuilder()->getForm('\Drupal\migrate_tools\Form\MigrationExecuteForm');
   }
 
