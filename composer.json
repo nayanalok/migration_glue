@@ -18,7 +18,8 @@
       "drupal/migrate_source_csv": "^2.2",
       "drupal/migrate_file": "^1.1",
       "drupal/migrate_process_inline_images": "1.x-dev",
-      "drupal/migrate_tools": "^4.1"
+      "drupal/migrate_tools": "^4.1",
+      "erusev/parsedown": "^1.7"
     },
     "minimum-stability": "dev"
 }
