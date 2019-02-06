@@ -32,8 +32,12 @@ class ApmMarkdown extends ProcessPluginBase {
    * {@inheritdoc}
    */
   public function transform($value, MigrateExecutableInterface $migrate_executable, Row $row, $destination_property) {
-    $parseDown = new \Parsedown();
-    $value = $parseDown->text($value);
+    // Works only with the string/text.
+    if (is_string($value) && !empty($value) && class_exists('Parsedown')) {
+      $parseDown = new \Parsedown();
+      $value = $parseDown->text($value);
+    }
+
     return $value;
   }
 
