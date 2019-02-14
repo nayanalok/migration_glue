@@ -48,6 +48,11 @@ source:
       selector: status
       label: status
       name: status
+    -
+      selector: seq_to_assoc
+      label: seq_to_assoc
+      name: seq_to_assoc
+
   ids:
     id:
       type: string
@@ -94,6 +99,20 @@ process:
     no_stub: '0'
     source: author
   status: status
+
+  apm_seq_to_assoc:
+    -
+      plugin: apm_seq_to_assoc
+      source: seq_to_assoc
+      key_value: dummy_key
+    -
+      plugin: sub_process
+      process:
+        target_id:
+          plugin: migration_lookup
+          migration: tags_json_migrate
+          source: dummy_key
+
 destination:
   plugin: 'entity:node'
 dependencies:
