@@ -1,0 +1,46 @@
+id: tripgully_html_migrate
+label: 'TripGully HTML Migrate'
+migration_group: default
+source:
+  plugin: apm_html_migrate
+  urls:
+    - 'https://www.tripgully.com/destination/mcleod-ganj'
+    - 'https://www.tripgully.com/destination/jaipur'
+  fields:
+    -
+      selector: h1
+      selector_type: tag
+      label: title
+      name: title
+    -
+      selector: view-mode-full
+      selector_type: class
+      label: content
+      name: content
+  ids:
+    path:
+      type: string
+process:
+  type:
+    plugin: default_value
+    default_value: article
+  body/value:
+    plugin: inline_images
+    source: content
+  body/format:
+    plugin: default_value
+    default_value: full_html
+  title:
+    -
+      plugin: callback
+      callable: strip_tags
+      source: title
+    -
+      plugin: callback
+      callable: trim
+destination:
+  plugin: 'entity:node'
+dependencies:
+  enforced:
+    module:
+      - apm_html_migrate

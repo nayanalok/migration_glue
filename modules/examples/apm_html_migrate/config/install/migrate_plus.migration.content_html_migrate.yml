@@ -1,0 +1,46 @@
+id: content_html_migrate
+label: 'Content HTML Migrate'
+migration_group: default
+source:
+  plugin: apm_html_migrate
+  urls:
+    - modules/contrib/migration_glue/modules/examples/apm_html_migrate/data/Drupal7_multilingual_site_set_up.htm
+    - modules/contrib/migration_glue/modules/examples/apm_html_migrate/data/Guide_For_Acquia_Certified_Developer_Drupal_8.htm
+  fields:
+    -
+      selector: block-blog-themes-page-title
+      selector_type: id
+      label: title
+      name: title
+    -
+      selector: node__content
+      selector_type: class
+      label: content
+      name: content
+  ids:
+    path:
+      type: string
+process:
+  type:
+    plugin: default_value
+    default_value: article
+  body/value:
+    plugin: inline_images
+    source: content
+  body/format:
+    plugin: default_value
+    default_value: full_html
+  title:
+    -
+      plugin: callback
+      callable: strip_tags
+      source: title
+    -
+      plugin: callback
+      callable: trim
+destination:
+  plugin: 'entity:node'
+dependencies:
+  enforced:
+    module:
+      - apm_html_migrate
