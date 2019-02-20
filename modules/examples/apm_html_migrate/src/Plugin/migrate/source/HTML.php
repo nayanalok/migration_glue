@@ -15,7 +15,7 @@ use Drupal\migrate\Plugin\MigrationInterface;
  * UTF BOM (Byte Order Marker) so they are interpreted correctly.
  *
  * @MigrateSource(
- *   id = "apm_html_migrate"
+ *   id = "apm_html"
  * )
  */
 class HTML extends SourcePluginBase {
@@ -81,16 +81,16 @@ class HTML extends SourcePluginBase {
    * {@inheritdoc}
    */
   public function initializeIterator() {
-    return $this->getDataParserPlugin();
+    return $this->parseHtml();
   }
 
   /**
-   * Returns the initialized data parser plugin.
+   * Parse HTML into array Iterator.
    *
-   * @return \Drupal\migrate_plus\DataParserPluginInterface
-   *   The data parser plugin.
+   * @return \ArrayIterator
+   *   Iterator object.
    */
-  public function getDataParserPlugin() {
+  public function parseHtml() {
     // Logic to parse HTML.
     $arr_data = [];
     if (class_exists('DOMDocument')) {
@@ -124,7 +124,7 @@ class HTML extends SourcePluginBase {
       }
     }
     else {
-      \Drupal::messenger()->addMessage(t('Enable PHP extension for DOMDocument.'), 'error');
+      $this->messenger()->addError($this->t('Enable PHP extension for DOMDocument.'));
     }
 
     return new \ArrayIterator($arr_data);

@@ -2,7 +2,7 @@ id: content_html_migrate
 label: 'Content HTML Migrate'
 migration_group: default
 source:
-  plugin: apm_html_migrate
+  plugin: apm_html
   urls:
     - modules/contrib/migration_glue/modules/examples/apm_html_migrate/data/Drupal7_multilingual_site_set_up.htm
     - modules/contrib/migration_glue/modules/examples/apm_html_migrate/data/Guide_For_Acquia_Certified_Developer_Drupal_8.htm

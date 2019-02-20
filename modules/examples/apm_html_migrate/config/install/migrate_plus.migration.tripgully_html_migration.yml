@@ -2,7 +2,7 @@ id: tripgully_html_migrate
 label: 'TripGully HTML Migrate'
 migration_group: default
 source:
-  plugin: apm_html_migrate
+  plugin: apm_html
   urls:
     - 'https://www.tripgully.com/destination/mcleod-ganj'
     - 'https://www.tripgully.com/destination/jaipur'
