@@ -38,13 +38,6 @@ class HTML extends SourcePluginBase {
   protected $fields = [];
 
   /**
-   * List of key fields, as indexes.
-   *
-   * @var array
-   */
-  protected $keys = [];
-
-  /**
    * List of key Ids, as indexes.
    *
    * @var array
@@ -101,24 +94,18 @@ class HTML extends SourcePluginBase {
         $dom->preserveWhiteSpace = false;
         // Create array of HTML data.
         foreach ($this->fields as $field) {
-          if ($field['selector_type'] == 'id') {
-            $arr_data[$key][$field['name']] = $dom->saveHTML($dom->getElementById($field['selector']));
+          switch ($field['selector_type']) {
+            case 'id':
+              $arr_data[$key][$field['name']] = $dom->saveHTML($dom->getElementById($field['selector']));
+              break;
+            case 'tag':
+              $arr_data[$key][$field['name']] = $dom->saveHTML($dom->getElementsByTagName($field['selector'])->item(0));
+              break;
+            case 'class':
+              $arr_data[$key][$field['name']] = $this->getHTMLByClassName($dom, $field);
+              break;
           }
-          elseif ($field['selector_type'] == 'tag') {
-            $arr_data[$key][$field['name']] = $dom->saveHTML($dom->getElementsByTagName($field['selector'])->item(0));
-          }
-          elseif ($field['selector_type'] == 'class') {
-            $xpath = new \DOMXPath($dom);
-            $innerHTML = '';
-            $classname = $field['selector'];
-            $nodes = $xpath->query("//*[contains(concat(' ', normalize-space(@class), ' '), ' $classname ')]");
-            $tmp_dom = new \DOMDocument();
-            foreach ($nodes as $node) {
-              $tmp_dom->appendChild($tmp_dom->importNode($node, true));
-            }
-            $innerHTML .= trim($tmp_dom->saveHTML());
-            $arr_data[$key][$field['name']] = $innerHTML;
-          }
+          // @todo: add case for selectors similar to jquery selectors.
         }
         $arr_data[$key]['path'] = $url;
       }
@@ -128,6 +115,29 @@ class HTML extends SourcePluginBase {
     }
 
     return new \ArrayIterator($arr_data);
+  }
+
+  /**
+   * Parse html from class name.
+   *
+   * @param $dom
+   *   DOMDocument object.
+   * @param $field
+   *   Mixed array.
+   * @return string
+   *   HTML output.
+   */
+  function getHTMLByClassName($dom, $field) {
+    $xpath = new \DOMXPath($dom);
+    $innerHTML = '';
+    $classname = $field['selector'];
+    $nodes = $xpath->query("//*[contains(concat(' ', normalize-space(@class), ' '), ' $classname ')]");
+    $tmp_dom = new \DOMDocument();
+    foreach ($nodes as $node) {
+      $tmp_dom->appendChild($tmp_dom->importNode($node, true));
+    }
+    $innerHTML .= trim($tmp_dom->saveHTML());
+    return $innerHTML;
   }
 
   /**
