@@ -10,7 +10,8 @@
       "path": "/html-5-better-markup",
       "date_created": "2016-08-30T10:20:00Z",
       "status": 1,
-      "markdown_body": "# h1 Heading 8\n## h2 Heading\n### h3 Heading\n#### h4 Heading\n##### h5 Heading\n###### h6 Heading\n"
+      "markdown_body": "# h1 Heading 8\n## h2 Heading\n### h3 Heading\n#### h4 Heading\n##### h5 Heading\n###### h6 Heading\n",
+      "seq_to_assoc": ["ABC", "DEF"]
     },
     {
       "id": "2",
@@ -22,7 +23,8 @@
       "path": "/new-concepts-in-css3",
       "date_created": "2016-09-10T11:15:00Z",
       "status": 0,
-      "markdown_body": "## Horizontal Rules"
+      "markdown_body": "## Horizontal Rules",
+      "seq_to_assoc": ["GHI", "JKL"]
     },
     {
       "id": "3",
@@ -34,7 +36,8 @@
       "path": "/drupal-9-a-step-ahead",
       "date_created": "2016-09-15T10:00:00Z",
       "status": 1,
-      "markdown_body": "**This is bold text**\n*This is italic text*\n~~Strikethrough~~"
+      "markdown_body": "**This is bold text**\n*This is italic text*\n~~Strikethrough~~",
+      "seq_to_assoc": ["MNO", "PQR", "XYZ"]
     }
   ]
 }
