@@ -4,8 +4,8 @@ migration_group: default
 source:
   plugin: apm_html
   urls:
-    - modules/contrib/migration_glue/modules/examples/apm_html_migrate/data/Drupal7_multilingual_site_set_up.htm
-    - modules/contrib/migration_glue/modules/examples/apm_html_migrate/data/Guide_For_Acquia_Certified_Developer_Drupal_8.htm
+    - modules/contrib/acquia_platform_migration/modules/examples/apm_html_migrate/data/Drupal7_multilingual_site_set_up.htm
+    - modules/contrib/acquia_platform_migration/modules/examples/apm_html_migrate/data/Guide_For_Acquia_Certified_Developer_Drupal_8.htm
   fields:
     -
       selector: block-blog-themes-page-title
