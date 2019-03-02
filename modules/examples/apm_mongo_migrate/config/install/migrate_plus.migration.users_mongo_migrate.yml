@@ -1,0 +1,47 @@
+id: users_mongo_migrate
+label: 'Users Mongo Migrate'
+migration_group: default
+
+source:
+  plugin: apm_mongo
+  collection: users
+  fields:
+    _id: 'ID'
+    username: 'User name'
+    password: 'User password'
+    mail: 'User mail'
+    status: 'User status'
+    roles: 'User roles'
+
+process:
+
+  name: username
+
+  pass:
+    plugin: skip_on_empty
+    method: process
+    source: password
+
+  roles:
+    -
+      plugin: explode
+      source: roles
+      limit: 100
+      delimiter: ','
+    -
+      plugin: static_map
+      map:
+        admin: administrator
+        normal: authenticated
+
+  status: status
+
+  mail: mail
+
+destination:
+  plugin: 'entity:user'
+  md5_passwords: true
+dependencies:
+  enforced:
+    module:
+      - apm_mongo_migrate

@@ -1,0 +1,39 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the apm_mongo_migrate module.
+ */
+
+/**
+ * Implements hook_requirements().
+ */
+function apm_mongo_migrate_requirements($phase) {
+  $requirements = [];
+
+  // If `mongodb` extension is installed.
+  if (!extension_loaded('mongodb')) {
+    $requirements['mongodb_extension'] = [
+      'title' => t('MongoDB'),
+      'value' => t('Not available'),
+      'description' => t('The `Acquia Platform Migration - MongoDB Examples` module requires the `mongodb` extension which is not available. Please see @link to install it.', [
+        '@link' => 'http://php.net/manual/en/set.mongodb.php',
+      ]),
+      'severity' => REQUIREMENT_ERROR,
+    ];
+  }
+
+  // If `mongodb` php library is installed.
+  if (!class_exists('\MongoDB\Client')) {
+    $requirements['mongodb_client'] = [
+      'title' => t('MongoDB'),
+      'value' => t('Not available'),
+      'description' => t('The `Acquia Platform Migration - MongoDB Examples` module requires the PHP `mongodb/mongodb` which is not available. Please see @link to install it.', [
+        '@link' => 'http://php.net/manual/en/mongodb.tutorial.library.php',
+      ]),
+      'severity' => REQUIREMENT_ERROR,
+    ];
+  }
+
+  return $requirements;
+}
