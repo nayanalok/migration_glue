@@ -5,7 +5,7 @@ This is a sample module to migrate data from MongoDB to Drupal8.
 ## Requirements
 
 * This module requires php `mongodb` extension to be enabled.
-* Follow/See [http://php.net/manual/en/set.mongodb.php](http://php.net/manual/en/set.mongodb.php){:target="_blank"} to
+* Follow/See [http://php.net/manual/en/set.mongodb.php](http://php.net/manual/en/set.mongodb.php) to
 install the `mongodb` php extension.
 * I used PECL to install it - 
 `sudo pecl install mongodb`
@@ -13,7 +13,7 @@ install the `mongodb` php extension.
 by checking `php -i | grep 'mongo'` or just visiting phpinfo() page.
 * Once extension is installed, need to install the `mongodb` PHP
 library as well.
-* Follow/See [http://php.net/manual/en/set.mongodb.php](http://php.net/manual/en/mongodb.tutorial.library.php){:target="_blank"}
+* Follow/See [http://php.net/manual/en/set.mongodb.php](http://php.net/manual/en/mongodb.tutorial.library.php)
 to install mongodb php library.
 
 ## Installation
