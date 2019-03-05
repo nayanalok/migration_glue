@@ -5,6 +5,7 @@ use Drupal\Core\Site\Settings;
 use Drupal\migrate\Plugin\migrate\source\SourcePluginBase;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\migrate\Plugin\MigrationInterface;
+use Drupal\migrate\MigrateException;
 use MongoDB\Client;
 use MongoDB\Model\BSONDocument;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -57,6 +58,10 @@ class ApmMongo extends SourcePluginBase implements ContainerFactoryPluginInterfa
   public function __construct(array $configuration, $plugin_id, $plugin_definition, MigrationInterface $migration) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $migration);
     // @see settings.php for connection info.
+    // If no mongodb connection info provided.
+    if (empty(Settings::get('mongodb'))) {
+      throw new MigrateException('MongoDB connection info is missing. Please see `READEME.md` to setup mongodb connection.');
+    }
     $this->mongoDBConnection = Settings::get('mongodb');
     $this->sourceCollection = $configuration['collection'];
     $this->sourceFields = $configuration['fields'];
