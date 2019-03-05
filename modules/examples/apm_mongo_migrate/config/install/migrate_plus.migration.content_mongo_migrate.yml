@@ -1,0 +1,54 @@
+id: content_mongo_migrate
+label: 'Content Mongo Migrate'
+migration_group: default
+
+source:
+  plugin: apm_mongo
+  collection: content
+  fields:
+    _id: 'ID'
+    title: 'Content title'
+    content: 'Content body'
+    author: "Author who created the content"
+    tags: "Tags associated with content"
+
+process:
+
+  type:
+    plugin: default_value
+    default_value: article
+
+  title: title
+
+  body/value: content
+
+  body/format:
+    plugin: default_value
+    default_value: full_html
+
+  uid:
+    plugin: entity_lookup
+    source: author
+    value_key: name
+    entity_type: user
+    bundle: 1
+    bundle_key: status
+
+  field_tags:
+    -
+      plugin: explode
+      delimiter: ','
+      source: tags
+    -
+      plugin: entity_lookup
+      value_key: name
+      bundle_key: vid
+      bundle: tags
+      entity_type: taxonomy_term
+
+destination:
+  plugin: 'entity:node'
+dependencies:
+  enforced:
+    module:
+      - apm_mongo_migrate
