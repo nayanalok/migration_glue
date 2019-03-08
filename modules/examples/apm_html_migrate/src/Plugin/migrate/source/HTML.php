@@ -90,6 +90,7 @@ class HTML extends SourcePluginBase {
       $dom = new \DOMDocument;
       foreach ($this->sourceUrls as $key => $url) {
         $html = file_get_contents($url);
+        libxml_use_internal_errors(true);
         $dom->loadHTML($html);
         $dom->preserveWhiteSpace = false;
         // Create array of HTML data.
