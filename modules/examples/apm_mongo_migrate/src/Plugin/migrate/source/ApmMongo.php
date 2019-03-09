@@ -8,6 +8,7 @@ use Drupal\migrate\Plugin\MigrationInterface;
 use Drupal\migrate\MigrateException;
 use MongoDB\Client;
 use MongoDB\Model\BSONDocument;
+use MongoDB\Driver\Exception\ConnectionTimeoutException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -110,11 +111,23 @@ class ApmMongo extends SourcePluginBase implements ContainerFactoryPluginInterfa
    * @return mixed
    */
   protected function getSourceData() {
-    $rows = $this->getDatabase()
-      ->selectCollection($this->mongoDBConnection['database'], $this->sourceCollection)
-      ->find([])
-      ->toArray();
-    return $this->getDataAsArray($rows);
+    try {
+      $rows = $this->getDatabase()
+        ->selectCollection($this->mongoDBConnection['database'], $this->sourceCollection)
+        ->find([])
+        ->toArray();
+      return $this->getDataAsArray($rows);
+    }
+    catch (ConnectionTimeoutException $e) {
+      $this->messenger()->addError($this->t('Unable to connect to mongodb server. Please check connection info.'));
+      return [];
+    }
+    catch (\Exception $e) {
+      $this->messenger()->addError($this->t('Error: @message', [
+        '@message' => $e->getMessage(),
+      ]));
+      return [];
+    }
   }
 
   /**
