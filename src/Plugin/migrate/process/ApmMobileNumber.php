@@ -21,15 +21,16 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
  *
  * Example of migration yml.
  *
- *  field_drupal_mobile_number:
+ *  field_mobile_number:
  *    plugin: apm_mobile_number
- *    value: mobile_number #[Required]
- *    country: x_country #[Optional if default_country is available]
- *    local_number: x_local_number #[Optional]
- *    verified: x_verified #[Optional, default is 0]
- *    tfa: x_tfa #[Optional, default is 0]
- *    default_country: IN #[Optional, if country is available for each record]
  *    source: mobile
+ *    map:
+ *      value: x_value #[Required]
+ *      country: x_country #[Required]
+ *      local_number: x_local_number #[Optional]
+ *      verified: x_verified #[Optional, default is 0]
+ *      tfa: x_tfa #[Optional, default is 0]
+ *      default_country: IN #[Optional, if country is not available for any record, default will be used]
  *
  * Example XML data:
  *
@@ -56,6 +57,11 @@ class ApmMobileNumber extends ProcessPluginBase implements ContainerFactoryPlugi
     if (!$moduleHandler->moduleExists('mobile_number')) {
       throw new MigrateException('Enable Mobile Number module.');
     }
+
+    // If `value` and `country` key not available in migration configuration.
+    if (empty($this->configuration['map']['value']) || empty($this->configuration['map']['country'])) {
+      throw new MigrateException('Mobile number and Country is required.');
+    }
     $this->mobile_number = \Drupal::getContainer()->get('mobile_number.util');
   }
 
@@ -77,21 +83,34 @@ class ApmMobileNumber extends ProcessPluginBase implements ContainerFactoryPlugi
   public function transform($value, MigrateExecutableInterface $migrate_executable, Row $row, $destination_property) {
     $processed_data = [];
 
-    // Converts simple XML object to array.
-    $mobile_data = $this->xml2array($value);
+    // Get mobile mapping configurations.
+    $field_mapping = $this->configuration['map'];
 
-    // If mobile 'value' is not skip the record and show error.
-    if (!isset($mobile_data[$this->configuration['value']])) {
-      throw new MigrateSkipRowException('The "value" must be set.');
-    }
-    $processed_data['value'] = $mobile_data[$this->configuration['value']];
-
-    // Set country as default country is value is not set.
-    if (empty($mobile_data[$this->configuration['country']])) {
-      $processed_data['country'] = $this->configuration['default_country'];
+    // If $value is object convert it to array.
+    if(is_object($value) || is_array($value)) {
+      $mobile_data = is_object($value) ? (array)$value : $value;
     }
     else {
-      $processed_data['country'] = $mobile_data[$this->configuration['country']];
+      // If values are in separate fields.
+      $mobile_data[$field_mapping['value']] = $row->getSourceProperty($field_mapping['value']);
+      $mobile_data[$field_mapping['country']] = $row->getSourceProperty($field_mapping['country']);
+      $mobile_data[$field_mapping['local_number']] = $row->getSourceProperty($field_mapping['local_number']);
+      $mobile_data[$field_mapping['verified']] = $row->getSourceProperty($field_mapping['verified']);
+      $mobile_data[$field_mapping['tfa']] = $row->getSourceProperty($field_mapping['tfa']);
+    }
+
+    // If mobile 'value' is not available skip the record and show error.
+    if (!isset($mobile_data[$field_mapping['value']])) {
+      throw new MigrateSkipRowException('The "value" must be set.');
+    }
+    $processed_data['value'] = $mobile_data[$field_mapping['value']];
+
+    // Set country as default country is value is not set.
+    if (empty($mobile_data[$field_mapping['country']])) {
+      $processed_data['country'] = $field_mapping['default_country'];
+    }
+    else {
+      $processed_data['country'] = $mobile_data[$field_mapping['country']];
     }
 
     // Generate mobile number that can be used to get callable and local number.
@@ -101,46 +120,30 @@ class ApmMobileNumber extends ProcessPluginBase implements ContainerFactoryPlugi
     $processed_data['value'] = $this->mobile_number->getCallableNumber($mobile_number);
 
     // Set local_number with help of mobile_number.
-    if (empty($mobile_data[$this->configuration['local_number']])) {
+    if (empty($mobile_data[$field_mapping['local_number']])) {
       $processed_data['local_number'] = $this->mobile_number->getLocalNumber($mobile_number);
     }
     else {
-      $processed_data['local_number'] = $mobile_data[$this->configuration['local_number']];
+      $processed_data['local_number'] = $mobile_data[$field_mapping['local_number']];
     }
 
     // If verified data is not available set default as 0.
-    if (empty($mobile_data[$this->configuration['verified']])) {
+    if (empty($mobile_data[$field_mapping['verified']])) {
       $processed_data['verified'] = 0;
     }
     else {
-      $processed_data['verified'] = $mobile_data[$this->configuration['verified']];
+      $processed_data['verified'] = $mobile_data[$field_mapping['verified']];
     }
 
     // If tfa data is not available set default as 0.
-    if (empty($mobile_data[$this->configuration['tfa']])) {
+    if (empty($mobile_data[$field_mapping['tfa']])) {
       $processed_data['tfa'] = 0;
     }
     else {
-      $processed_data['tfa'] = $mobile_data[$this->configuration['tfa']];
+      $processed_data['tfa'] = $mobile_data[$field_mapping['tfa']];
     }
 
     return $processed_data;
-  }
-
-  /**
-   * Function to convert XML to array.
-   *
-   * @param $xmlObject
-   *   XML object.
-   * @return array
-   *   Output data as array.
-   */
-  function xml2array ( $xmlObject) {
-    foreach ( (array) $xmlObject as $index => $node ) {
-      $out[$index] = (is_object($node)) ? xml2array($node) : $node;
-    }
-
-    return $out;
   }
 
 }

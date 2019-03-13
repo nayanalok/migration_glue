@@ -1,0 +1,8 @@
+name: Acquia Platform Migration - Mobile Number Examples
+type: module
+description: 'XML to Drupal 8 migration examples.'
+package: Migration
+core: 8.x
+dependencies:
+  - acquia_platform_migration:acquia_platform_migration
+  - mobile_number:mobile_number
