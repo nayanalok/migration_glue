@@ -56,10 +56,6 @@ source:
       selector: language
       label: language
       name: language
-    -
-      selector: mobile
-      label: mobile
-      name: mobile
   ids:
     username:
       type: string
@@ -99,15 +95,6 @@ process:
   status: status
   mail: email
   langcode: language
-  field_mobile_number:
-    plugin: apm_mobile_number
-    value: x_value
-    country: x_country
-    local_number: x_local_number
-    verified: x_verified
-    tfa: x_tfa
-    default_country: IN
-    source: mobile
 destination:
   plugin: 'entity:user'
   md5_passwords: true
