@@ -1,0 +1,32 @@
+id: tags_couch_migrate
+label: 'Tags Couch Migrate'
+migration_group: default
+
+source:
+  plugin: apm_couch
+  collection: tags
+  fields:
+    _id: 'ID'
+    tag_desc: 'Tag Description'
+    tag_name: 'Tag name'
+
+process:
+
+  vid:
+    plugin: default_value
+    default_value: tags
+
+  name: tag_name
+
+  description/value: tag_desc
+
+  description/format:
+    plugin: default_value
+    default_value: full_html
+
+destination:
+  plugin: 'entity:taxonomy_term'
+dependencies:
+  enforced:
+    module:
+      - apm_couch_migrate

@@ -1,0 +1,37 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the apm_couch_migrate module.
+ */
+
+/**
+ * Implements hook_requirements().
+ */
+function apm_couch_migrate_requirements($phase) {
+  $requirements = [];
+
+  /*// If `couchdb` extension is installed.
+  if (!extension_loaded('couchdb')) {
+    $requirements['couchdb_extension'] = [
+      'title' => t('CouchDB'),
+      'value' => t('Not available'),
+      'description' => t('The `Acquia Platform Migration - CouchDB Examples` module requires the `couchdb` extension which is not available.'),
+      'severity' => REQUIREMENT_ERROR,
+    ];
+  }*/
+
+  // If `couchdb` php library is installed.
+  if (!class_exists('\PHPOnCouch\CouchClient')) {
+    $requirements['couchdb_client'] = [
+      'title' => t('CouchDB'),
+      'value' => t('Not available'),
+      'description' => t('The `Acquia Platform Migration - CouchDB Examples` module requires the PHP `php-on-couch/php-on-couch` which is not available. Please see @link to install it.', [
+        '@link' => 'http://php.net/manual/en/couchdb.tutorial.library.php',
+      ]),
+      'severity' => REQUIREMENT_ERROR,
+    ];
+  }
+
+  return $requirements;
+}
