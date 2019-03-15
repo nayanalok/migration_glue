@@ -11,7 +11,17 @@
       "updated": "12/11/18",
       "status": "1",
       "picture": "https://images-na.ssl-images-amazon.com/images/I/61PCWfClLNL._SX425_.jpg",
-      "language": "en"
+      "language": "en",
+      "address": {
+        "countrycode": "IN",
+        "address": "vardhaman Dreams",
+        "addressmore": "Wakad",
+        "companyname": "Acquia",
+        "cityname": "Pune",
+        "firstname": "Pranit",
+        "lastname": "Jha",
+        "postalcode": "411033"
+      }
     },
     {
       "id": "2",
@@ -24,7 +34,15 @@
       "updated": "12/12/18",
       "status": "1",
       "picture": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/220px-User_icon_2.svg.png",
-      "language": "en"
+      "language": "en",
+      "countrycode": "IN",
+      "address": "vardhaman Dreams",
+      "addressmore": "Kaspate vasti road",
+      "companyname": "Acquia",
+      "cityname": "Pune",
+      "firstname": "Pranit",
+      "lastname": "Jha",
+      "postalcode": "411033"
     },
     {
       "id": "3",
