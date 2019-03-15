@@ -47,13 +47,21 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
  * )
  */
 class ApmMobileNumber extends ProcessPluginBase implements ContainerFactoryPluginInterface {
-  protected $mobile_number;
+
+  /**
+   * Entity type manager.
+   *
+   * @var \Drupal\Core\Entity\MobileNumber
+   */
+  protected $mobileNumber;
 
   /**
    * {@inheritdoc}
    */
   public function __construct(array $configuration, $pluginId, $pluginDefinition, ModuleHandlerInterface $moduleHandler) {
     parent::__construct($configuration, $pluginId, $pluginDefinition);
+
+    // If 'mobile_number' module is enabled.
     if (!$moduleHandler->moduleExists('mobile_number')) {
       throw new MigrateException('Enable Mobile Number module.');
     }
@@ -62,7 +70,9 @@ class ApmMobileNumber extends ProcessPluginBase implements ContainerFactoryPlugi
     if (empty($this->configuration['map']['value']) || empty($this->configuration['map']['country'])) {
       throw new MigrateException('Mobile number and Country is required.');
     }
-    $this->mobile_number = \Drupal::getContainer()->get('mobile_number.util');
+
+    // Service injected for mobile_number.util.
+    $this->mobileNumber = \Drupal::getContainer()->get('mobile_number.util');
   }
 
   /**
@@ -106,42 +116,30 @@ class ApmMobileNumber extends ProcessPluginBase implements ContainerFactoryPlugi
     $processed_data['value'] = $mobile_data[$field_mapping['value']];
 
     // Set country as default country is value is not set.
-    if (empty($mobile_data[$field_mapping['country']])) {
-      $processed_data['country'] = $field_mapping['default_country'];
-    }
-    else {
-      $processed_data['country'] = $mobile_data[$field_mapping['country']];
-    }
+    $processed_data['country'] = empty($mobile_data[$field_mapping['country']])
+      ? $field_mapping['default_country']
+      : $mobile_data[$field_mapping['country']];
 
     // Generate mobile number that can be used to get callable and local number.
-    $mobile_number = $this->mobile_number->getMobileNumber($processed_data['value'], $processed_data['country']);
+    $mobile_number = $this->mobileNumber->getMobileNumber($processed_data['value'], $processed_data['country']);
 
     // Create mobile number value as per mobile_number module.
-    $processed_data['value'] = $this->mobile_number->getCallableNumber($mobile_number);
+    $processed_data['value'] = $this->mobileNumber->getCallableNumber($mobile_number);
 
     // Set local_number with help of mobile_number.
-    if (empty($mobile_data[$field_mapping['local_number']])) {
-      $processed_data['local_number'] = $this->mobile_number->getLocalNumber($mobile_number);
-    }
-    else {
-      $processed_data['local_number'] = $mobile_data[$field_mapping['local_number']];
-    }
+    $processed_data['local_number'] = empty($mobile_data[$field_mapping['local_number']])
+      ? $this->mobileNumber->getLocalNumber($mobile_number)
+      : $mobile_data[$field_mapping['local_number']];
 
     // If verified data is not available set default as 0.
-    if (empty($mobile_data[$field_mapping['verified']])) {
-      $processed_data['verified'] = 0;
-    }
-    else {
-      $processed_data['verified'] = $mobile_data[$field_mapping['verified']];
-    }
+    $processed_data['verified'] = empty($mobile_data[$field_mapping['verified']])
+      ? 0
+      : $mobile_data[$field_mapping['verified']];
 
     // If tfa data is not available set default as 0.
-    if (empty($mobile_data[$field_mapping['tfa']])) {
-      $processed_data['tfa'] = 0;
-    }
-    else {
-      $processed_data['tfa'] = $mobile_data[$field_mapping['tfa']];
-    }
+    $processed_data['tfa'] = empty($mobile_data[$field_mapping['tfa']])
+      ? 0
+      : $mobile_data[$field_mapping['tfa']];
 
     return $processed_data;
   }
