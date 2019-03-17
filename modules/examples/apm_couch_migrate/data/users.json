@@ -1,0 +1,1 @@
+{"_id":"users","_rev":"3-6c8aa529a0559160dc396ae959e2a554","rows":[{"username":"couchuser1","password":"","roles":"admin","status":"1","mail":"couchuser1@example.com"},{"username":"couchuser2","password":"","roles":"admin","status":"1","mail":"couchuser2@example.com"},{"username":"couchuser3","password":"","roles":"admin","status":"1","mail":"couchuser3@example.com"}]}

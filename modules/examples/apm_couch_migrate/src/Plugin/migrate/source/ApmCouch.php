@@ -111,12 +111,17 @@ class ApmCouch extends SourcePluginBase implements ContainerFactoryPluginInterfa
    * @return mixed
    */
   protected function getSourceData() {
+//    $rows = $this->getDatabase()
+//      ->getAllDocs()
+//      ->rows;
+//    print_r($rows);die;
     try {
       $rows = $this->getDatabase()
-        ->selectCollection($this->couchDBConnection['database'], $this->sourceCollection)
-        ->find([])
-        ->toArray();
-      return $this->getDataAsArray($rows);
+        ->asArray()
+        ->getDoc('tags')['rows'];
+      //print_r($rows);die;
+      return $rows;
+      // return $this->getDataAsArray($rows);
     }
     catch (ConnectionTimeoutException $e) {
       $this->messenger()->addError($this->t('Unable to connect to couchdb server. Please check connection info.'));
@@ -161,7 +166,7 @@ class ApmCouch extends SourcePluginBase implements ContainerFactoryPluginInterfa
    */
   protected function getDatabase() {
     $connection_info = $this->couchDBConnection['default'];
-    return new CouchClient($connection_info['uri'], $connection_info['uriOptions'], $connection_info['driverOptions']);
+    return new CouchClient($connection_info['dns'], $connection_info['database']);
   }
 
 }

@@ -6,7 +6,6 @@ source:
   plugin: apm_couch
   collection: tags
   fields:
-    _id: 'ID'
     tag_desc: 'Tag Description'
     tag_name: 'Tag name'
 

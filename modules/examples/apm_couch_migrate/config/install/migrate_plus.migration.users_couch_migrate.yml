@@ -1,0 +1,46 @@
+id: users_couch_migrate
+label: 'Users Couch Migrate'
+migration_group: default
+
+source:
+  plugin: apm_couch
+  collection: users
+  fields:
+    username: 'User name'
+    password: 'User password'
+    mail: 'User mail'
+    status: 'User status'
+    roles: 'User roles'
+
+process:
+
+  name: username
+
+  pass:
+    plugin: skip_on_empty
+    method: process
+    source: password
+
+  roles:
+    -
+      plugin: explode
+      source: roles
+      limit: 100
+      delimiter: ','
+    -
+      plugin: static_map
+      map:
+        admin: administrator
+        normal: authenticated
+
+  status: status
+
+  mail: mail
+
+destination:
+  plugin: 'entity:user'
+  md5_passwords: true
+dependencies:
+  enforced:
+    module:
+      - apm_couch_migrate
