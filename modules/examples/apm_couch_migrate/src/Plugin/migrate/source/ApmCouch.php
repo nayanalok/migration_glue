@@ -111,17 +111,11 @@ class ApmCouch extends SourcePluginBase implements ContainerFactoryPluginInterfa
    * @return mixed
    */
   protected function getSourceData() {
-//    $rows = $this->getDatabase()
-//      ->getAllDocs()
-//      ->rows;
-//    print_r($rows);die;
     try {
       $rows = $this->getDatabase()
         ->asArray()
-        ->getDoc('tags')['rows'];
-      //print_r($rows);die;
+        ->getDoc($this->sourceCollection)['rows'];
       return $rows;
-      // return $this->getDataAsArray($rows);
     }
     catch (ConnectionTimeoutException $e) {
       $this->messenger()->addError($this->t('Unable to connect to couchdb server. Please check connection info.'));
@@ -133,29 +127,6 @@ class ApmCouch extends SourcePluginBase implements ContainerFactoryPluginInterfa
       ]));
       return [];
     }
-  }
-
-  /**
-   * Function to get data as array.
-   *
-   * @param mixed $data
-   *   Array / Object / Final value.
-   *
-   * @return array
-   *   Array of records.
-   */
-  protected function getDataAsArray($data) {
-    $records = [];
-
-    if (!empty($data)) {
-      foreach ($data as $key => $value) {
-        if ($value instanceof BSONDocument) {
-          $records[$key] = (array) $value->jsonSerialize();
-        }
-      }
-    }
-
-    return $records;
   }
 
   /**

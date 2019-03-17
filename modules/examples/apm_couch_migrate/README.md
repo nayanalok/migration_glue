@@ -1,39 +1,27 @@
-# MongoDB Migrate
+# CouchDB Migrate
 
-This is a sample module to migrate data from MongoDB to Drupal8.
+This is a sample module to migrate data from CouchDB to Drupal8.
 
 ## Requirements
 
-* This module requires php `mongodb` extension to be enabled.
-* Follow/See [http://php.net/manual/en/set.mongodb.php](http://php.net/manual/en/set.mongodb.php) to
-install the `mongodb` php extension.
-* I used PECL to install it - 
-`sudo pecl install mongodb`
-* Once extension is installed, verify that extension is available
-by checking `php -i | grep 'mongo'` or just visiting phpinfo() page.
-* Once extension is installed, need to install the `mongodb` PHP
-library as well.
-* Follow/See [http://php.net/manual/en/set.mongodb.php](http://php.net/manual/en/mongodb.tutorial.library.php)
-to install mongodb php library.
+* This module requires php `php-on-couch` library to be installed.
+* Run `composer require php-on-couch/php-on-couch` to install the library.
 
 ## Installation
-* Once `mongodb` extension and PHP library is installed, update the
-settings.php with the `mongodb` database details like below -
+* Once `php-on-couch` PHP library is installed, update the
+settings.php with the `couchdb` database details like below -
 ```
-$settings['mongodb'] = [
+$settings['couchdb'] = [
   // Connection info.
   'default' => [
-    'uri' => 'mongodb://127.0.0.1:27017',
-    'uriOptions' => [],
-    'driverOptions' => [],
+    'dns' => 'http://localhost:5984',
+    'database' => 'drupal8couch',
   ],
-  // Database name.
-  'database' => 'mongodb database name here',
 ];
  ```
 * Once DB settings done, import the data from the `data` directory
-of this module to your mongodb database by command -
-`./mongorestore -d <database_name> <data_directory_path>`
-* Command to export mongodata -
-`./mongodump -d <database_name> -o <directory_backup>`
-* Then enable the module `apm_mongo_migrate` and run migration.
+of this module to your mongodb database by following steps -
+* Navigate to `http://127.0.0.1:5984/_utils/` and create database `drupal8couch`.
+* Inside the database create 3 documents with _id content, tags and users.
+* Now edit the documents and add json data from the corresponding `data` directory files.
+* Then enable the module `apm_couch_migrate` and run migration.
