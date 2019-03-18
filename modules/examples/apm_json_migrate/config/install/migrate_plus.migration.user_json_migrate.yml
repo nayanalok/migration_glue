@@ -56,6 +56,42 @@ source:
       selector: language
       label: language
       name: language
+    -
+      selector: countrycode
+      label: countrycode
+      name: countrycode
+    -
+      selector: address
+      label: address
+      name: address
+    -
+      selector: addressmore
+      label: addressmore
+      name: addressmore
+    -
+      selector: companyname
+      label: companyname
+      name: companyname
+    -
+      selector: regionname
+      label: regionname
+      name: regionname
+    -
+      selector: cityname
+      label: cityname
+      name: cityname
+    -
+      selector: firstname
+      label: firstname
+      name: firstname
+    -
+      selector: lastname
+      label: lastname
+      name: lastname
+    -
+      selector: postalcode
+      label: postalcode
+      name: postalcode
   ids:
     username:
       type: string
@@ -92,6 +128,18 @@ process:
     plugin: callback
     callable: strtotime
     source: updated
+  field_postal_address:
+    plugin: apm_address
+    source: address
+    map:
+      country_code: countrycode
+      postal_code: postalcode
+      locality: cityname
+      address_line1: address
+      address_line2: addressmore
+      given_name: firstname
+      family_name: lastname
+      organization: companyname
   status: status
   mail: email
   langcode: language
