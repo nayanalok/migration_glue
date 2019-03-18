@@ -1,6 +1,6 @@
 name: Acquia Platform Migration - Mobile Number Examples
 type: module
-description: 'XML to Drupal 8 migration examples.'
+description: 'Migrate Mobile Number field data to Drupal 8 Mobile Number fields.'
 package: Migration
 core: 8.x
 dependencies:

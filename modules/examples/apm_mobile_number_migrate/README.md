@@ -1,6 +1,8 @@
 # Mobile Number migration
 
-This is a sample module to migrate data to Mobile Number field.
+This is a sample module to migrate mobile number data to Mobile Number field of Drupal 8.
+This example module is build on top of contrib module 'mobile_number' and it adds a Mobile number field in user entity.
+2 sample migration (XML and JSON) has been added to demonstrate the working of mobile number migration.
 
 ## Installation
 
