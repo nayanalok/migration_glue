@@ -1,0 +1,138 @@
+id: user_mobile_xml_migrate
+label: 'User Mobile XML Migrate'
+migration_group: default
+source:
+  plugin: url
+  data_parser_plugin: xml
+  data_fetcher_plugin: file
+  urls: modules/contrib/acquia_platform_migration/modules/examples/apm_mobile_number_migrate/data/users.xml
+  item_selector: /document/user
+  fields:
+    -
+      selector: /document/user
+      label: /document/user
+      name: /document/user
+    -
+      selector: id
+      label: id
+      name: id
+    -
+      selector: email
+      label: email
+      name: email
+    -
+      selector: username
+      label: username
+      name: username
+    -
+      selector: password
+      label: password
+      name: password
+    -
+      selector: roles
+      label: roles
+      name: roles
+    -
+      selector: fullname
+      label: fullname
+      name: fullname
+    -
+      selector: created
+      label: created
+      name: created
+    -
+      selector: updated
+      label: updated
+      name: updated
+    -
+      selector: status
+      label: status
+      name: status
+    -
+      selector: picture
+      label: picture
+      name: picture
+    -
+      selector: language
+      label: language
+      name: language
+    -
+      selector: mobile
+      label: mobile
+      name: mobile
+    -
+      selector: x_value
+      label: x_value
+      name: x_value
+    -
+      selector: x_country
+      label: x_country
+      name: x_country
+    -
+      selector: x_local_number
+      label: x_local_number
+      name: x_local_number
+    -
+      selector: x_verified
+      label: x_verified
+      name: x_verified
+    -
+      selector: x_tfa
+      label: x_tfa
+      name: x_tfa
+  ids:
+    username:
+      type: string
+process:
+  user_picture:
+    plugin: image_import
+    source: picture
+    destination: 'public://images/'
+    title: ''
+    alt: ''
+    height: ''
+    width: ''
+  name: username
+  pass:
+    plugin: skip_on_empty
+    method: process
+    source: password
+  roles:
+    -
+      plugin: explode
+      source: roles
+      limit: 100
+      delimiter: ','
+    -
+      plugin: static_map
+      map:
+        admin: administrator
+        normal: authenticated
+  created:
+    plugin: callback
+    callable: strtotime
+    source: created
+  changed:
+    plugin: callback
+    callable: strtotime
+    source: updated
+  status: status
+  mail: email
+  langcode: language
+  field_mobile_number:
+    plugin: apm_mobile_number
+    source: mobile
+    map:
+      value: x_value
+      country: x_country
+      local_number: x_local_number
+      verified: x_verified
+      tfa: x_tfa
+      default_country: IN
+destination:
+  plugin: 'entity:user'
+  md5_passwords: true
+dependencies:
+  enforced:
+    module:
+      - apm_mobile_number_migrate
