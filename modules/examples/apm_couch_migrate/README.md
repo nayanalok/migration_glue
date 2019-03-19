@@ -22,6 +22,6 @@ $settings['couchdb'] = [
 * Once DB settings done, import the data from the `data` directory
 of this module to your mongodb database by following steps:
     * Navigate to `http://127.0.0.1:5984/_utils/` and create database `drupal8couch`.
-    * Inside the database create 3 documents with _id content, tags and users.
+    * Inside the database create 3 documents with `_id` content, tags and users.
     * Now edit the documents and add json data from the corresponding `data` directory files.
 * Then enable the module `apm_couch_migrate` and run migration.

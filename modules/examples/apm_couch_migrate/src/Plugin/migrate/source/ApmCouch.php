@@ -7,12 +7,12 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\migrate\Plugin\MigrationInterface;
 use Drupal\migrate\MigrateException;
 use PHPOnCouch\CouchClient;
-use CouchDB\Model\BSONDocument;
-use CouchDB\Driver\Exception\ConnectionTimeoutException;
+use PHPOnCouch\Exceptions\CouchNoResponseException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Source plugin for the CouchDB.
+ *
  *
  * @MigrateSource(
  *   id = "apm_couch"
@@ -117,7 +117,7 @@ class ApmCouch extends SourcePluginBase implements ContainerFactoryPluginInterfa
         ->getDoc($this->sourceCollection)['rows'];
       return $rows;
     }
-    catch (ConnectionTimeoutException $e) {
+    catch (CouchNoResponseException $e) {
       $this->messenger()->addError($this->t('Unable to connect to couchdb server. Please check connection info.'));
       return [];
     }
