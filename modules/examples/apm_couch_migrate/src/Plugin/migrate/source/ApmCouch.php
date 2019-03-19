@@ -13,6 +13,21 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Source plugin for the CouchDB.
  *
+ * This source plugin requires two configurations `collection` and `fields`.
+ * Collection will be the document from the CouchDB while fields are field keys
+ * in the CouchDB document.
+ *
+ * Example:
+ * @code
+ * source:
+ *   plugin: apm_couch
+ *   collection: content #[Required]
+ *   fields:
+ *     title: 'Content title'
+ *     content: 'Content body'
+ *     author: "Author who created the content"
+ *     tags: "Tags associated with content"
+ * @endcode
  *
  * @MigrateSource(
  *   id = "apm_couch"
