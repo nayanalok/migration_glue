@@ -1,1 +1,21 @@
-{"_id":"tags","_rev":"6-ba83d004e44a9c039ade5d124bcff43f","rows":[{"_id":"1","tag_name":"Cricket","tag_desc":"Cricket is a sport."},{"_id":"2","tag_name":"Football","tag_desc":"Cricket is a sport."},{"_id":"3","tag_name":"Badminton","tag_desc":"Cricket is a sport."}]}
+{
+  "_id": "tags",
+  "_rev": "8-52e644021898842a95d7c07d1e2820f5",
+  "rows": [
+    {
+      "_id": "1",
+      "tag_name": "couchtag1",
+      "tag_desc": "couchtag1 desc"
+    },
+    {
+      "_id": "2",
+      "tag_name": "couchtag2",
+      "tag_desc": "couchtag1 desc"
+    },
+    {
+      "_id": "3",
+      "tag_name": "couchtag3",
+      "tag_desc": "couchtag1 desc"
+    }
+  ]
+}
