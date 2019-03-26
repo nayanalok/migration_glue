@@ -1,1 +1,27 @@
-{"_id":"content","_rev":"3-cbcceeb70f21622d7e60211b9a5b051c","rows":[{"title":"Couch content 1","content":"This is couch content for the content 1","author":"couchuser1","tags":"couchtag1, couchtag2"},{"title":"Couch content 2","content":"This is couch content for the content 2","author":"couchuser2","tags":"couchtag1"},{"title":"Couch content 3","content":"This is couch content for the content 3","author":"couchuser3","tags":"couchtag3, couchtag2"}]}
+{
+  "_id": "content",
+  "_rev": "8-d8848b46a37ca4cb18aafd1c034a1b3d",
+  "rows": [
+    {
+      "_id": 1,
+      "title": "Couch content 1",
+      "content": "This is couch content for the content 1",
+      "author": "couchuser1",
+      "tags": "couchtag1,couchtag2"
+    },
+    {
+      "_id": 2,
+      "title": "Couch content 2",
+      "content": "This is couch content for the content 2",
+      "author": "couchuser2",
+      "tags": "couchtag1"
+    },
+    {
+      "_id": 3,
+      "title": "Couch content 3",
+      "content": "This is couch content for the content 3",
+      "author": "couchuser3",
+      "tags": "couchtag3,couchtag2"
+    }
+  ]
+}

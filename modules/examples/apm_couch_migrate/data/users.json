@@ -1,1 +1,30 @@
-{"_id":"users","_rev":"3-6c8aa529a0559160dc396ae959e2a554","rows":[{"username":"couchuser1","password":"","roles":"admin","status":"1","mail":"couchuser1@example.com"},{"username":"couchuser2","password":"","roles":"admin","status":"1","mail":"couchuser2@example.com"},{"username":"couchuser3","password":"","roles":"admin","status":"1","mail":"couchuser3@example.com"}]}
+{
+  "_id": "users",
+  "_rev": "6-edb8ff8dab1f49e2c056381e1869c1aa",
+  "rows": [
+    {
+      "_id": 1,
+      "username": "couchuser1",
+      "password": "",
+      "roles": "admin",
+      "status": "1",
+      "mail": "couchuser1@example.com"
+    },
+    {
+      "_id": 2,
+      "username": "couchuser2",
+      "password": "",
+      "roles": "admin",
+      "status": "1",
+      "mail": "couchuser2@example.com"
+    },
+    {
+      "_id": 3,
+      "username": "couchuser3",
+      "password": "",
+      "roles": "admin",
+      "status": "1",
+      "mail": "couchuser3@example.com"
+    }
+  ]
+}
