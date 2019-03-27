@@ -30,11 +30,9 @@ class ApmConvertTokens extends ProcessPluginBase {
    * {@inheritdoc}
    */
   public function transform($value, MigrateExecutableInterface $migrate_executable, Row $row, $destination_property) {
-    // Token mapping detail from configuration file.
-    $tokens_mapping = $this->configuration['map'];
     // Works only with the string/text.
     if (is_string($value) && !empty($value)) {
-      foreach ($tokens_mapping  as $src_token => $drupal_token) {
+      foreach ($this->configuration['map']  as $src_token => $drupal_token) {
         // Replace source token with Drupal Token.
         $value = str_replace($src_token, $drupal_token, $value);
       }
