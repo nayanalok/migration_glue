@@ -96,8 +96,15 @@ process:
     height: ''
     width: ''
   body/value:
-    plugin: inline_images
-    source: body
+    -
+      plugin: inline_images
+      source: body
+    -
+      plugin: apm_convert_token
+      map:
+        '@user': '[user:name]'
+        '!title': '[node:title]'
+        '!site_name': '[site:name]'
   body/format:
     plugin: default_value
     default_value: full_html
